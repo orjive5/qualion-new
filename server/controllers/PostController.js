@@ -47,6 +47,7 @@ const remove = async (req, res) => {
 
             res.json({
                 success: true,
+                message: 'Post deleted!'
             });
         })
     } catch (err) {
@@ -61,9 +62,11 @@ const create = async (req, res) => {
     try {
         const doc = new PostModel({
             title: req.body.title,
+            subtitle: req.body.subtitle,
             text: req.body.text,
-            imageUrl: req.body.imageUrl,
             tags: req.body.tags,
+            imageUrl: req.body.imageUrl,
+            isPublished: req.body.isPublished,
         });
 
         const post = await doc.save();
@@ -87,14 +90,17 @@ const update = async (req, res) => {
             },
             {
                 title: req.body.title,
+                subtitle: req.body.subtitle,
                 text: req.body.text,
                 tags: req.body.tags,
                 imageUrl: req.body.imageUrl,
+                isPublished: req.body.isPublished,
             },
         );
 
         res.json({
             success: true,
+            message: 'Post updated!'
         })
     } catch (err) {
         console.log(err);

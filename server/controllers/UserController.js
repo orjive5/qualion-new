@@ -41,7 +41,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const user = await UserModel.findOne({ email: req.body.email });
+        const user = await UserModel.findOne({ email: req.body.email, isAdmin: true });
 
         if (!user) {
             return res.status(404).json({

@@ -6,6 +6,10 @@ const PostSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        subtitle: {
+            type: String,
+            required: true,
+        },
         text: {
             type: String,
             required: true,
@@ -17,6 +21,11 @@ const PostSchema = new mongoose.Schema(
         },
         imageUrl: {
             type: String,
+            default: '',
+        },
+        isPublished: {
+            type: Boolean,
+            default: true,
         },
     },
     {

@@ -37,6 +37,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+//Cors
+const cors=require("cors");
+const corsOptions ={
+   origin:'*', 
+   credentials:true,
+   optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions))
+
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 app.use(helmet());
@@ -46,6 +56,10 @@ app.use(morgan('common'));
 
 app.use('/auth', authRoute);
 app.use('/posts', postsRoute);
+
+app.get('/protected', checkAuth, (req, res) => {
+    res.send('Welcome to protected route!')
+});
 
 //Upload image
 app.post('/upload', checkAuth, upload.single('image'), (req, res) => {

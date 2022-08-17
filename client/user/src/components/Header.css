@@ -1,0 +1,27 @@
+.main-nav {
+  background-color: black;
+  color: white;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+}
+
+.qualion-banner {
+  height: 60px;
+  margin-inline: 50px;
+}
+
+.hamburger-menu:hover,
+.search-icon:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.search-icon {
+  margin-left: auto;
+  margin-right: 50px;
+}
