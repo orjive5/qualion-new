@@ -27,7 +27,7 @@ const Header = () => {
   
   return (
     <div>
-      <h1>Header</h1>
+      <h1>Welcome to admin panel</h1>
       <button onClick={() => navigate('/posts/new')}>New post</button>
       <button onClick={logOut}>Log out</button>
     </div>

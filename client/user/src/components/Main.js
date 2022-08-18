@@ -36,11 +36,14 @@ const Main = () => {
         </Link>
         <div className="post-listing-details">
           <Link to={`/posts/${singleData._id}`} style={{ textDecoration: 'none' }}>
+          <hr></hr>
             <h1 className="post-listing-title">{singleData.title}</h1>
           </Link>
-          <p>{singleData.subtitle}</p>
-          <p>{timestamp}</p>
-          <p>#{singleData.tags.join(' #')}</p>
+          <p className="subtitle-paragraph">{singleData.subtitle}</p>
+          <div className="date-and-tags">
+            <p className="time-paragraph">{timestamp}</p>
+            <p className="tags-paragraph">#{singleData.tags.join(' #')}</p>
+          </div>
         </div>
       </article>
     )

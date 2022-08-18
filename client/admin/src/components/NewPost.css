@@ -1,3 +1,10 @@
 .new-post-form {
   background-color: aqua;
 }
+.new-post-form form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}

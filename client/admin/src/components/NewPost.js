@@ -21,7 +21,9 @@ const NewPost = () => {
     }, [])
 
     const [postTitle, setPostTitle] = useState('');
+    const [postSubtitle, setPostSubtitle] = useState('');
     const [postText, setPostText] = useState('');
+    const [postTags, setPostTags] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [postStatus, setPostStatus] = useState('');
     const inputFileRef = useRef(null);
@@ -31,9 +33,11 @@ const NewPost = () => {
 
         const token = localStorage.getItem('token');
         axios.post('http://localhost:8000/posts', {
-                title: postTitle,
-                text: postText,
-                imageUrl: imageUrl,
+            title: postTitle,
+            subtitle: postSubtitle,
+            tags: postTags.split(','),
+            text: postText,
+            imageUrl: imageUrl,
             }, {
                 headers: {
                     Authorization: token,
@@ -42,7 +46,9 @@ const NewPost = () => {
             .then((response) => {
                 console.log(response)
                 setPostTitle('');
+                setPostSubtitle('');
                 setPostText('');
+                setPostTags('');
                 setPostStatus('Post created successfully!');
             }).catch(err => {
                 console.log(err)
@@ -80,6 +86,14 @@ const NewPost = () => {
                         onChange={(e) => setPostTitle(e.target.value)}
                     />
                 </label>
+                <label>Subtitle:
+                    <input
+                        type='text'
+                        required
+                        value={postSubtitle}
+                        onChange={(e) => setPostSubtitle(e.target.value)}
+                    />
+                </label>
                 <label>Post text:
                     <textarea
                         required
@@ -87,6 +101,15 @@ const NewPost = () => {
                         onChange={(e) => setPostText(e.target.value)}
                     >
                     </textarea>
+                </label>
+                <label>Tags:
+                    <input
+                        type='text'
+                        required
+                        value={postTags}
+                        onChange={(e) => setPostTags(e.target.value)}
+                    >
+                    </input>
                 </label>
                 <label>Upload image:
                     <input
@@ -97,7 +120,7 @@ const NewPost = () => {
                         onChange={handleChangeFile}
                     />
                 </label>
-                <button>Submit</button>
+                <input type='submit'></input>
             </form>
             <p>{postStatus}</p>
             <button onClick={() => navigate('/')}>Home</button>
@@ -105,4 +128,4 @@ const NewPost = () => {
     )
 }
 
-export default NewPost
+export default NewPost;
