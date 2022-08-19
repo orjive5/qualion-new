@@ -1,10 +1,13 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import './Footer.css'
+import axios from "axios";
 
 const Footer = () => {
+  
   return (
-    <div>
-      <h1>Footer</h1>
-    </div>
+    <footer>
+      <h1>QUALION</h1>
+    </footer>
   )
 }
 

@@ -9,7 +9,8 @@ const Main = () => {
         .get('http://localhost:8000/posts')
         .then((res) => {
             const publishedPosts = res.data.filter(element => element.isPublished === true)
-            setAllData(publishedPosts)
+          setAllData(publishedPosts);
+          setActiveData(publishedPosts);
         })
         .catch((err) => console.log(err, 'Arrgh, it\'s an error...'))
   }
@@ -17,7 +18,25 @@ const Main = () => {
   const [allData, setAllData] = useState([]);
   useEffect(() => { getAllData() }, []);
 
-  const postListings = allData.map((singleData) => {
+  const [allTags, setAllTags] = useState([]);
+  const getAllTags = () => {
+    const getTags = allData.map(el => el.tags).flat();
+    setAllTags([...new Set(getTags)])
+  }
+  useEffect(() => { getAllTags() }, []);
+
+  const [activeTag, setActiveTag] = useState('');
+
+  const [activeData, setActiveData] = useState([]);
+  useEffect(() => setActiveData(allData.filter(el => {
+        if (el.tags.includes(activeTag)) {
+          return el;
+        }
+  })), [activeTag]);
+  
+  console.log(activeTag);
+
+  const postListings = activeData.map((singleData) => {
     const timestamp = new Date(singleData.createdAt).toLocaleDateString('en-us', {
       year: 'numeric',
       month: 'long',
@@ -25,6 +44,22 @@ const Main = () => {
       weekday: 'long',
       }
     )
+
+    const postTags = singleData.tags.map(el => {
+      return `#${el.trim()}`
+    })
+
+    const displayTags = postTags.map(el => {
+      return (
+        <p onClick={() => setActiveTag(`${el.substring(1)}`)} className="tags-paragraph" key={`${el}${singleData._id}`}>{el}</p>
+      )
+    });
+
+    const removeTags = () => {
+      setActiveTag('');
+      getAllData();
+    }
+
     return (
       <article key={singleData._id} className='post-listing'>
         <Link to={`/posts/${singleData._id}`}>
@@ -42,7 +77,9 @@ const Main = () => {
           <p className="subtitle-paragraph">{singleData.subtitle}</p>
           <div className="date-and-tags">
             <p className="time-paragraph">{timestamp}</p>
-            <p className="tags-paragraph">#{singleData.tags.join(' #')}</p>
+            <div>
+              {displayTags}
+            </div>
           </div>
         </div>
       </article>
@@ -51,6 +88,18 @@ const Main = () => {
   
   return (
     <main className="main-content">
+      {activeTag !== '' && (
+        <div>
+          <h1>{activeTag}</h1>
+          <button
+            onClick={() => {
+            setActiveTag('');
+            getAllData();
+            }}>
+            Remove tag
+          </button>
+        </div>
+      ) }
       <section className="display-posts">
         {postListings}
       </section>

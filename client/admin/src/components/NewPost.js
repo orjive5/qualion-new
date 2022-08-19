@@ -35,7 +35,7 @@ const NewPost = () => {
         axios.post('http://localhost:8000/posts', {
             title: postTitle,
             subtitle: postSubtitle,
-            tags: postTags.split(','),
+            tags: postTags.split(',').map(el => el.trim()),
             text: postText,
             imageUrl: imageUrl,
             }, {

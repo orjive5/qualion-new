@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import Header from './Header';
+import Footer from './Footer';
+import './Post.css'
 
 const Post = () => {
 
@@ -23,14 +26,17 @@ const Post = () => {
     
     return (
         <div className="post">
-            <img
-                src={post.imageUrl}
-                alt=""
-                width='200px'
-            />
-            <h1>{post.title}</h1>
+            <Header />
+            <div className='post-header' >
+                <img
+                    src={post.imageUrl}
+                    alt=""
+                />
+                <h1>{post.title}</h1>
+            </div>
             <p>{post.text}</p>
             <button onClick={() => navigate('/')}>Home</button>
+            <Footer />
         </div>
     );
 }
