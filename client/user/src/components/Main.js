@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios'
 import './Main.css'
+import MainLoader from "./MainLoader";
 
 const Main = () => {
   const getAllData = () => {
@@ -12,11 +13,14 @@ const Main = () => {
           setAllData(publishedPosts);
           setActiveData(publishedPosts);
         })
-        .catch((err) => console.log(err, 'Arrgh, it\'s an error...'))
+      .catch((err) => console.log(err, 'Arrgh, it\'s an error...'))
+      .finally(() => setLoading(false))
   }
 
   const [allData, setAllData] = useState([]);
   useEffect(() => { getAllData() }, []);
+
+  const [isLoading, setLoading] = useState(true)
 
   const [allTags, setAllTags] = useState([]);
   const getAllTags = () => {
@@ -33,8 +37,6 @@ const Main = () => {
           return el;
         }
   })), [activeTag]);
-  
-  console.log(activeTag);
 
   const postListings = activeData.map((singleData) => {
     const timestamp = new Date(singleData.createdAt).toLocaleDateString('en-us', {
@@ -54,11 +56,6 @@ const Main = () => {
         <p onClick={() => setActiveTag(`${el.substring(1)}`)} className="tags-paragraph" key={`${el}${singleData._id}`}>{el}</p>
       )
     });
-
-    const removeTags = () => {
-      setActiveTag('');
-      getAllData();
-    }
 
     return (
       <article key={singleData._id} className='post-listing'>
@@ -89,19 +86,24 @@ const Main = () => {
   return (
     <main className="main-content">
       {activeTag !== '' && (
-        <div>
-          <h1>{activeTag}</h1>
+        <div className="active-tag">
+          <h1><span className="hashtag">#</span>{activeTag}</h1>
           <button
             onClick={() => {
             setActiveTag('');
             getAllData();
             }}>
-            Remove tag
+            Clear
           </button>
         </div>
-      ) }
+      )}
       <section className="display-posts">
-        {postListings}
+        {isLoading ? (
+          <div className="main-loader">
+            <MainLoader />
+            <MainLoader />
+          </div>
+        ) : postListings}
       </section>
     </main>
   )

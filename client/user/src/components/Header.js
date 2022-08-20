@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import './Header.css'
 import qualionBanner from '../assets/qualion-banner.jpg'
 import Icon from '@mdi/react';
-import { mdiMenu } from '@mdi/js';
-import { mdiMagnify } from '@mdi/js';
+import { mdiMenu, mdiMagnify } from '@mdi/js';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {

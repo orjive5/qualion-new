@@ -1,5 +1,8 @@
 .main-content {
   padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .display-posts {
@@ -87,4 +90,36 @@
 .tags-paragraph:hover {
   cursor: pointer;
   color: #8d8d8d;
+}
+.active-tag {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.active-tag h1 {
+  font-size: 1.5rem;
+}
+
+.active-tag button {
+  font-size: 1.2rem;
+  border: none;
+  background-color: #00f;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.active-tag button:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.hashtag {
+  color: #00f;
+  font-weight: bold;
+}
+
+.main-loader {
+  display: flex;
+  flex-direction: column;
 }
