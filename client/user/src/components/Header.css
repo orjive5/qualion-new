@@ -5,6 +5,7 @@
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 100;
 }
 
 .main-nav {
@@ -75,11 +76,9 @@
 .nav-dropdown {
   position: fixed;
   left: 0;
-  /* min-width: 40%; */
   max-height: 70vh;
   background: rgba(22, 27, 45, 0.9);
   z-index: 100;
-  /* overflow-y: scroll; */
   display: flex;
   gap: 30px;
 }

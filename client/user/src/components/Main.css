@@ -123,3 +123,41 @@
   display: flex;
   flex-direction: column;
 }
+
+.pagination-item {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination-item.active {
+  background-color: white;
+  color: black;
+}
+
+.pagination-container {
+  width: 100%;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination li {
+  display: block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  margin: 5px;
+  text-align: center;
+}
+
+.pagination-item:hover {
+  cursor: pointer;
+}
+
+.pagination-item.active:hover {
+  cursor: text;
+}

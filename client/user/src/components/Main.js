@@ -82,11 +82,10 @@ const Main = () => {
       </article>
     )
   }).reverse()
-  
-  return (
-    <main className="main-content">
-      {activeTag !== '' && (
-        <div className="active-tag">
+
+  const DisplayActiveTag = () => {
+    return (
+      <div className="active-tag">
           <h1><span className="hashtag">#</span>{activeTag}</h1>
           <button
             onClick={() => {
@@ -95,8 +94,13 @@ const Main = () => {
             }}>
             Clear
           </button>
-        </div>
-      )}
+      </div>
+    )
+  }
+  
+  return (
+    <main className="main-content">
+      {activeTag !== '' && <DisplayActiveTag />}
       <section className="display-posts">
         {isLoading ? (
           <div className="main-loader">
@@ -105,6 +109,34 @@ const Main = () => {
           </div>
         ) : postListings}
       </section>
+      {isLoading ? <div><h1>Loading...</h1></div> : (
+        <div className="pagination-container">
+          <ul className="pagination">
+            <li>
+              <div className="pagination-item">
+                &#10092;
+              </div>
+            </li>
+            <li>
+              <div className="pagination-item active">1</div>
+            </li>
+            <li>
+              <div className="pagination-item">2</div>
+            </li>
+            <li>
+              <div className="pagination-item active">...</div>
+            </li>
+            <li>
+              <div className="pagination-item">12</div>
+            </li>
+            <li>
+              <div className="pagination-item">
+                &#10093;
+              </div>
+            </li>
+          </ul>
+        </div>
+      )}
     </main>
   )
 }

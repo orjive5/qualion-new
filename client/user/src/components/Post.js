@@ -20,6 +20,8 @@ const Post = () => {
             .finally(() => setLoading(false))
     }
 
+    const navigate = useNavigate();
+
     const { postId } = useParams();
 
     const [post, setPost] = useState([]);
@@ -27,21 +29,31 @@ const Post = () => {
 
     const [latestPosts, setLatestPosts] = useState([]);
 
+    // useEffect(() => {
+    //     window.scrollTo(0, 0)
+    //   }, [])
+
     const displayLatest = latestPosts.map(latest => {
+
+        //FIX: Link changes URL, but doesn't rerender the component, changePost is temporary solution
+        //ALSO FIX: When component is rendered, it should be at the top of the page...
+        const changePost = () => {
+            navigate(`/posts/${latest._id}`);
+            window.location.reload(false);
+            // window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+        }
         return (
-            <div className='latest-post'>
-                <img
-                    src={latest.imageUrl}
-                    alt=""
-                />
-                <h1>{latest.title}</h1>
-            </div>
+                <div onClick={changePost} className='latest-post' key={latest._id}>
+                    <img
+                        src={latest.imageUrl}
+                        alt=""
+                    />
+                    <h1>{latest.title}</h1>
+                </div>
         )
     })
 
     const [isLoading, setLoading] = useState(true);
-
-    const navigate = useNavigate();
     
     return (
         <div className="post">
@@ -58,11 +70,13 @@ const Post = () => {
                                 <h1><span>{post.title}</span></h1>
                             </div>
                         </div>
-                        <div className='post-body'>
-                            <p>{post.text}</p>
-                        </div>
-                        <div className='latest-posts'>
-                            {displayLatest}
+                        <div className='post-container'>
+                            <div className='post-body'>
+                                <p>{post.text}</p>
+                            </div>
+                            <div className='latest-posts'>
+                                {displayLatest}
+                            </div>
                         </div>
                     </div>
                 )
