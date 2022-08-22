@@ -5,40 +5,65 @@ import './Main.css'
 import MainLoader from "./MainLoader";
 
 const Main = () => {
+  const [allData, setAllData] = useState([]);
+  const [isLoading, setLoading] = useState(true)
+  const [allTags, setAllTags] = useState([]);
+  const [activeTag, setActiveTag] = useState('');
+  const [activeData, setActiveData] = useState([]);
+
   const getAllData = () => {
     axios
-        .get('http://localhost:8000/posts')
-        .then((res) => {
-            const publishedPosts = res.data.filter(element => element.isPublished === true)
-          setAllData(publishedPosts);
-          setActiveData(publishedPosts);
-        })
+      .get('http://localhost:8000/posts')
+      .then((res) => {
+        const publishedPosts = res.data.filter(element => element.isPublished === true).reverse();
+        setAllData(publishedPosts);
+        setActiveData(publishedPosts);
+      })
       .catch((err) => console.log(err, 'Arrgh, it\'s an error...'))
       .finally(() => setLoading(false))
   }
 
-  const [allData, setAllData] = useState([]);
-  useEffect(() => { getAllData() }, []);
-
-  const [isLoading, setLoading] = useState(true)
-
-  const [allTags, setAllTags] = useState([]);
   const getAllTags = () => {
     const getTags = allData.map(el => el.tags).flat();
     setAllTags([...new Set(getTags)])
   }
-  useEffect(() => { getAllTags() }, []);
 
-  const [activeTag, setActiveTag] = useState('');
+  const activeTagData = () => {
+    setActiveData(allData.filter(el => {
+      if (el.tags.includes(activeTag)) {
+        return el;
+      }
+    }))
+  }
 
-  const [activeData, setActiveData] = useState([]);
-  useEffect(() => setActiveData(allData.filter(el => {
-        if (el.tags.includes(activeTag)) {
-          return el;
-        }
-  })), [activeTag]);
+  useEffect(() => {
+    getAllData();
+    getAllTags();
+  }, []);
 
-  const postListings = activeData.map((singleData) => {
+  useEffect(() => {
+    activeTagData();
+  }, [activeTag]);
+
+  //PAGINATION
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(10);
+
+  // Get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = activeData.slice(indexOfFirstPost, indexOfLastPost);
+
+  //Change page
+  const totalPosts = activeData.length;
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  //LOOP THROUGH POST LISTINGS TO DISPLAY THEM
+  const postListings = currentPosts.map((singleData) => {
     const timestamp = new Date(singleData.createdAt).toLocaleDateString('en-us', {
       year: 'numeric',
       month: 'long',
@@ -81,19 +106,63 @@ const Main = () => {
         </div>
       </article>
     )
-  }).reverse()
+  })
 
   const DisplayActiveTag = () => {
     return (
       <div className="active-tag">
-          <h1><span className="hashtag">#</span>{activeTag}</h1>
-          <button
-            onClick={() => {
-            setActiveTag('');
-            getAllData();
-            }}>
-            Clear
-          </button>
+        <h1>
+          <span className="hashtag">#</span>{activeTag}
+        </h1>
+        <button
+          onClick={() => {
+          setActiveTag('');
+          getAllData();
+          }}
+        >
+          Clear
+        </button>
+      </div>
+    )
+  }
+
+  const DisplayPagination = () => {
+
+    const previousPage = () => {
+      return currentPage > 1 && setCurrentPage(current => current-1)
+    }
+    
+    const nextPage = () => {
+      return currentPage < pageNumbers.length && setCurrentPage(current => current+1)
+    }
+    
+    return (
+      <div className="pagination-container">
+        <ul className="pagination">
+          <li>
+            <div onClick={previousPage} className="pagination-item">
+              &#10092;
+            </div>
+          </li>
+          {pageNumbers.map(page => {
+            return (
+              <li key={page}>
+                <div
+                  onClick={() => page !== currentPage && setCurrentPage(page)}
+                  className={`pagination-item ${page === currentPage && 'active'}`}
+                >
+                  {page}
+                </div>
+              </li>
+            )
+          })
+          }
+          <li onClick={nextPage}>
+            <div className="pagination-item">
+              &#10093;
+            </div>
+          </li>
+        </ul>
       </div>
     )
   }
@@ -109,34 +178,7 @@ const Main = () => {
           </div>
         ) : postListings}
       </section>
-      {isLoading ? <div><h1>Loading...</h1></div> : (
-        <div className="pagination-container">
-          <ul className="pagination">
-            <li>
-              <div className="pagination-item">
-                &#10092;
-              </div>
-            </li>
-            <li>
-              <div className="pagination-item active">1</div>
-            </li>
-            <li>
-              <div className="pagination-item">2</div>
-            </li>
-            <li>
-              <div className="pagination-item active">...</div>
-            </li>
-            <li>
-              <div className="pagination-item">12</div>
-            </li>
-            <li>
-              <div className="pagination-item">
-                &#10093;
-              </div>
-            </li>
-          </ul>
-        </div>
-      )}
+      {isLoading ? <div><h1>Loading...</h1></div> : <DisplayPagination />}
     </main>
   )
 }
