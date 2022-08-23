@@ -8,6 +8,8 @@ import PostLoader from './PostLoader';
 
 const Post = () => {
 
+    const [foundData, setFoundData] = useState([])
+
     const loadPosts = () => {
         axios.get('http://localhost:8000/posts')
             .then(function (response) {
@@ -57,7 +59,7 @@ const Post = () => {
     
     return (
         <div className="post">
-            <Header />
+            <Header setFoundData={setFoundData}/>
             {isLoading ? <PostLoader />
                 : (
                     <div className='post-main'>

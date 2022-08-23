@@ -4,11 +4,10 @@ import axios from 'axios'
 import './Main.css'
 import MainLoader from "./MainLoader";
 
-const Main = () => {
+const Main = ({ foundData, activeTag, setActiveTag }) => {
   const [allData, setAllData] = useState([]);
-  const [isLoading, setLoading] = useState(true)
+  const [isLoading, setLoading] = useState(true);
   const [allTags, setAllTags] = useState([]);
-  const [activeTag, setActiveTag] = useState('');
   const [activeData, setActiveData] = useState([]);
 
   const getAllData = () => {
@@ -44,6 +43,12 @@ const Main = () => {
   useEffect(() => {
     activeTagData();
   }, [activeTag]);
+
+  useEffect(() => {
+    if (foundData.length !== 0) {
+      setActiveData(foundData)
+    }
+  }, [foundData]);
 
   //PAGINATION
   const [currentPage, setCurrentPage] = useState(1);
@@ -92,8 +97,8 @@ const Main = () => {
         />
         </Link>
         <div className="post-listing-details">
-          <Link to={`/posts/${singleData._id}`} style={{ textDecoration: 'none' }}>
           <hr></hr>
+          <Link to={`/posts/${singleData._id}`} style={{ textDecoration: 'none' }}>
             <h1 className="post-listing-title">{singleData.title}</h1>
           </Link>
           <p className="subtitle-paragraph">{singleData.subtitle}</p>
@@ -135,7 +140,7 @@ const Main = () => {
     const nextPage = () => {
       return currentPage < pageNumbers.length && setCurrentPage(current => current+1)
     }
-    
+
     return (
       <div className="pagination-container">
         <ul className="pagination">
@@ -169,7 +174,7 @@ const Main = () => {
   
   return (
     <main className="main-content">
-      {activeTag !== '' && <DisplayActiveTag />}
+        { activeTag !== '' && <DisplayActiveTag />}
       <section className="display-posts">
         {isLoading ? (
           <div className="main-loader">

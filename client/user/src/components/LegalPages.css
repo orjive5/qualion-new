@@ -1,0 +1,32 @@
+.legal-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
+}
+
+.page-container h1 {
+  text-align: center;
+  margin: 20px 0 40px;
+  font-size: 3rem;
+  font-family: "DIN", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.page-text p {
+  margin-bottom: 30px;
+  line-height: 175%;
+  font-size: 1rem;
+  color: #444;
+  font-weight: 200;
+  font-family: "Merriweather", Georgia, "Times New Roman", Times, serif;
+}
