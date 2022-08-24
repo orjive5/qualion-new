@@ -37,7 +37,7 @@
   border: 1px solid #414c75;
   color: #414c75;
   margin-top: 0.2rem;
-  transition: 0.3s;
+  transition: 0.5s ease-out;
   display: inline-block;
   width: 140px;
   max-width: 100%;

@@ -1,11 +1,12 @@
 import React from 'react'
-import Header from './Header';
+import HeaderSimple from './HeaderSimple';
 import Footer from './Footer';
 
 const PrivacyPolicy = () => {
+
   return (
     <div className='privacy-policy-page legal-page'>
-      <Header />
+      <HeaderSimple />
       <div className='page-container'>
         <h1>PRIVACY POLICY</h1>
         <div className='page-text'>

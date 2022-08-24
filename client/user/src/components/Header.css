@@ -59,6 +59,20 @@
   padding: 0 10px;
 }
 
+.nav-dropdown-simple {
+  position: fixed;
+  left: 220px;
+  width: 250px;
+  max-height: 70vh;
+  background: rgba(22, 27, 45, 0.9);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  padding: 0 10px;
+}
+
 .menu-categories h1,
 .menu-pages h1 {
   font-family: "DIN", "Helvetica Neue", Helvetica, Arial, sans-serif;

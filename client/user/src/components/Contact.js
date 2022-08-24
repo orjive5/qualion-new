@@ -1,11 +1,11 @@
 import React from 'react'
-import Header from './Header';
+import HeaderSimple from './HeaderSimple';
 import Footer from './Footer';
 
 const Contact = () => {
   return (
     <div className='contact-page legal-page'>
-      <Header />
+      <HeaderSimple />
       <div className='page-container'>
         <h1>CONTACT US</h1>
         <div className='page-text'>

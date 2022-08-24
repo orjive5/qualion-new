@@ -4,7 +4,7 @@ import axios from 'axios'
 import './Main.css'
 import MainLoader from "./MainLoader";
 
-const Main = ({ foundData, activeTag, setActiveTag }) => {
+const Main = ({ foundData, activeTag, setActiveTag, currentPage, setCurrentPage }) => {
   const [allData, setAllData] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [allTags, setAllTags] = useState([]);
@@ -51,7 +51,7 @@ const Main = ({ foundData, activeTag, setActiveTag }) => {
   }, [foundData]);
 
   //PAGINATION
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(10);
 
   // Get current posts
@@ -81,20 +81,27 @@ const Main = ({ foundData, activeTag, setActiveTag }) => {
       return `#${el.trim()}`
     })
 
+    const selectTag = (el) => {
+      setCurrentPage(1);
+      setActiveTag(`${el.substring(1)}`)
+    }
+
     const displayTags = postTags.map(el => {
       return (
-        <p onClick={() => setActiveTag(`${el.substring(1)}`)} className="tags-paragraph" key={`${el}${singleData._id}`}>{el}</p>
+        <p onClick={() => selectTag(el)} className="tags-paragraph" key={`${el}${singleData._id}`}>{el}</p>
       )
     });
 
     return (
       <article key={singleData._id} className='post-listing'>
         <Link to={`/posts/${singleData._id}`}>
-        <img
-          src={singleData.imageUrl}
-          alt=""
-          className="post-listing-image"
-        />
+        <div className="post-listing-image-container">
+          <img
+            src={singleData.imageUrl}
+            alt=""
+            className="post-listing-image"
+          />
+        </div>
         </Link>
         <div className="post-listing-details">
           <hr></hr>

@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import Header from './Header';
+import { useNavigate, useParams } from 'react-router-dom';
+import HeaderSimple from './HeaderSimple';
 import Footer from './Footer';
 import './Post.css'
 import PostLoader from './PostLoader';
 
 const Post = () => {
+    const navigate = useNavigate();
+    const { postId } = useParams();
 
-    const [foundData, setFoundData] = useState([])
+    const [post, setPost] = useState([]);
+    const [latestPosts, setLatestPosts] = useState([]);
+    const [isLoading, setLoading] = useState(true);
 
     const loadPosts = () => {
         axios.get('http://localhost:8000/posts')
@@ -22,44 +26,30 @@ const Post = () => {
             .finally(() => setLoading(false))
     }
 
-    const navigate = useNavigate();
-
-    const { postId } = useParams();
-
-    const [post, setPost] = useState([]);
-    useEffect(() => { loadPosts() }, []);
-
-    const [latestPosts, setLatestPosts] = useState([]);
-
-    // useEffect(() => {
-    //     window.scrollTo(0, 0)
-    //   }, [])
-
     const displayLatest = latestPosts.map(latest => {
-
-        //FIX: Link changes URL, but doesn't rerender the component, changePost is temporary solution
-        //ALSO FIX: When component is rendered, it should be at the top of the page...
         const changePost = () => {
             navigate(`/posts/${latest._id}`);
-            window.location.reload(false);
-            // window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+            navigate(0);
         }
         return (
-                <div onClick={changePost} className='latest-post' key={latest._id}>
-                    <img
-                        src={latest.imageUrl}
-                        alt=""
-                    />
-                    <h1>{latest.title}</h1>
-                </div>
+            <div onClick={changePost} className='latest-post' key={latest._id}>
+                <img
+                    src={latest.imageUrl}
+                    alt=""
+                />
+                <h1>{latest.title}</h1>
+            </div>
         )
     })
 
-    const [isLoading, setLoading] = useState(true);
+    useEffect(() => { loadPosts() }, []);
+    useEffect(() => {
+        window.scrollTo({top: 0, left: 0});
+    }, [isLoading]) 
     
     return (
         <div className="post">
-            <Header setFoundData={setFoundData}/>
+            <HeaderSimple />
             {isLoading ? <PostLoader />
                 : (
                     <div className='post-main'>

@@ -1,11 +1,11 @@
 import React from 'react'
-import Header from './Header';
+import HeaderSimple from './HeaderSimple';
 import Footer from './Footer';
 
 const Faq = () => {
   return (
     <div className='faq-page legal-page'>
-      <Header />
+      <HeaderSimple />
       <div className='page-container'>
         <h1>FAQ</h1>
         <div className='page-text'>

@@ -1,11 +1,11 @@
 import React from 'react'
-import Header from './Header';
+import HeaderSimple from './HeaderSimple';
 import Footer from './Footer';
 
 const Contribute = () => {
   return (
     <div className='contribute-page legal-page'>
-      <Header />
+      <HeaderSimple />
       <div className='page-container'>
         <h1>CONTRIBUTE</h1>
         <div className='page-text'>

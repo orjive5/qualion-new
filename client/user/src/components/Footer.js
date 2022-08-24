@@ -25,15 +25,17 @@ const Footer = () => {
           </div>
           <div className="social-icons">
             <Icon
+              onClick={() => window.open('https://www.youtube.com/', '_blank', 'noopener,noreferrer')}
               path={mdiYoutube}
-              title="Youtube icon"
+              title="Youtube"
               className="youtube-icon"
               size='1.5rem'
               color="#414c75"
             />
             <Icon
+              onClick={() => window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer')}
               path={mdiInstagram}
-              title="Instagram icon"
+              title="Instagram"
               className="instagram-icon"
               size='1.5rem'
               color="#414c75"

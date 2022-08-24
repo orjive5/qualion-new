@@ -6,7 +6,7 @@ import { mdiMenu, mdiMagnify } from '@mdi/js';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 
-const Header = ({ setFoundData, activeTag, setActiveTag }) => {
+const Header = ({ setFoundData, activeTag, setActiveTag, currentPage, setCurrentPage }) => {
   const [searchBar, setSearchBar] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [navDropdown, setNavDropdown] = useState(false);
@@ -57,6 +57,7 @@ const Header = ({ setFoundData, activeTag, setActiveTag }) => {
   }
 
   const selectCategory = (e) => {
+    setCurrentPage(1);
     setActiveTag(e.target.textContent.toLowerCase());
     toggleNavDropdown();
   }
@@ -108,6 +109,7 @@ const Header = ({ setFoundData, activeTag, setActiveTag }) => {
             <h2 onClick={selectCategory}>Culture</h2>
             <h2 onClick={selectCategory}>Health</h2>
             <h2 onClick={selectCategory}>Climate</h2>
+            <h2 onClick={selectCategory}>AI</h2>
           </div>
           <div className="menu-pages">
             <Link to='/about' style={{ color: 'inherit', textDecoration: 'inherit'}}>

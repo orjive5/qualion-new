@@ -1,12 +1,12 @@
 import React from 'react'
-import Header from './Header';
+import HeaderSimple from './HeaderSimple';
 import Footer from './Footer';
 import './LegalPages.css'
 
 const About = () => {
   return (
     <div className='about-page legal-page'>
-      <Header />
+      <HeaderSimple />
       <div className='page-container'>
         <h1>ABOUT US</h1>
         <div className='page-text'>

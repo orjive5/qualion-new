@@ -23,7 +23,7 @@
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
   width: 1000px;
-  text-align: center;
+  text-align: left;
 }
 
 .post-title span {
@@ -72,15 +72,18 @@
 
 .latest-post {
   position: relative;
+  height: 215px;
   opacity: 0.9;
+  overflow: hidden;
+  transition: transform 0.5s ease;
 }
 
 .latest-post img {
   width: 320px;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
-  /* z-index: 2; */
   background: black;
+  transition: transform 0.5s ease;
 }
 
 .latest-post h1 {
@@ -94,14 +97,18 @@
   bottom: 0;
   left: 0;
   right: 0;
-  /* z-index: 11; */
   text-shadow: 0 1px 3px black;
   font-family: "DIN", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  transition: transform 0.3s ease;
 }
 
 .latest-post:hover {
   cursor: pointer;
   opacity: 1;
+}
+
+.latest-post:hover > h1 {
+  transform: translateY(-2px);
 }
 
 .post-container {
