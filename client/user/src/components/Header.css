@@ -111,3 +111,42 @@
   background-color: #00f;
   border-bottom: 1px solid transparent;
 }
+
+/* MEDIA QUERIES */
+
+@media (max-width: 1000px) {
+  .search-input {
+    max-width: 200px;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-nav {
+    padding: 0 1rem;
+  }
+
+  .search-bar {
+    margin-right: 0;
+  }
+
+  .qualion-banner {
+    display: none;
+  }
+
+  .nav-dropdown h1,
+  .nav-dropdown-simple h1 {
+    font-size: 12px;
+    width: 150px;
+  }
+
+  .nav-dropdown h2 {
+    font-size: 12px;
+  }
+
+  .nav-dropdown-simple {
+    left: 0;
+    width: auto;
+    padding: 0 1rem;
+  }
+}

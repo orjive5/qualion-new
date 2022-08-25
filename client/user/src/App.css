@@ -127,11 +127,11 @@ table {
 
 /* CUSTOM CSS */
 
-body,
-#root {
+body {
   background-color: white;
   min-height: 100vh;
   width: 100%;
+  overflow: auto;
 }
 
 .app {
