@@ -107,6 +107,7 @@ const Header = ({ setFoundData, activeTag, setActiveTag, currentPage, setCurrent
             <h1>CATEGORIES</h1>
             <h2 onClick={selectCategory}>Science</h2>
             <h2 onClick={selectCategory}>Culture</h2>
+            <h2 onClick={selectCategory}>Space</h2>
             <h2 onClick={selectCategory}>Health</h2>
             <h2 onClick={selectCategory}>Climate</h2>
             <h2 onClick={selectCategory}>AI</h2>

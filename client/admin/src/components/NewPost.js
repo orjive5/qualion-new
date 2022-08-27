@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import './NewPost.css'
+import { Editor } from '@tinymce/tinymce-react';
+import Icon from '@mdi/react'
+import { mdiCloudUpload } from '@mdi/js'
 
 const NewPost = () => {
 
@@ -22,8 +25,7 @@ const NewPost = () => {
 
     const [postTitle, setPostTitle] = useState('');
     const [postSubtitle, setPostSubtitle] = useState('');
-    const [postText, setPostText] = useState('');
-    const [postTags, setPostTags] = useState('');
+    const [postTags, setPostTags] = useState([]);
     const [imageUrl, setImageUrl] = useState('');
     const [postStatus, setPostStatus] = useState('');
     const inputFileRef = useRef(null);
@@ -35,8 +37,8 @@ const NewPost = () => {
         axios.post('http://localhost:8000/posts', {
             title: postTitle,
             subtitle: postSubtitle,
-            tags: postTags.split(',').map(el => el.trim()),
-            text: postText,
+            tags: postTags,
+            text: contentEditor,
             imageUrl: imageUrl,
             }, {
                 headers: {
@@ -47,10 +49,13 @@ const NewPost = () => {
                 console.log(response)
                 setPostTitle('');
                 setPostSubtitle('');
-                setPostText('');
-                setPostTags('');
+                setContentEditor('');
+                setPostTags([]);
+                inputFileRef.current.value = '';
+                setImageUrl('')
                 setPostStatus('Post created successfully!');
             }).catch(err => {
+                setPostStatus('Error, enter valid data!')
                 console.log(err)
             })
     }
@@ -74,45 +79,118 @@ const NewPost = () => {
         }
     }
 
+    //TinyMCS setup
+    const editorRef = useRef(null);
+    const log = () => {
+        if (editorRef.current) {
+            console.log(editorRef.current.getContent());
+        }
+    };
+    const [contentEditor, setContentEditor] = useState('');
+    const handleEditorChange = (content, editor) => {
+        setContentEditor(content);
+    }
+
+    //Capitalize every word in the title
+    const capitalizeCase = () => {
+        return postTitle.split(' ').map(el => {
+            return el.toLowerCase();
+        }).map(el => {
+            return el.slice(0,1).toUpperCase() + el.slice(1)
+        }).join(' ')
+    }
+    
+    //Handle Tags
+    const handleTagEnter = (e) => {
+
+        if (e.key === 'Enter') {
+            setPostTags([
+                ...postTags,
+                e.target.value,
+            ])
+            e.target.value = ''
+        }
+    }
+
     return (
-        <div className='new-post-form'>
+        <div className='create-new-post'>
             <h1>Create new post</h1>
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-                <label>Title:
+                <hr></hr>
+                <div className='title-input'>
                     <input
+                        placeholder='Title'
                         type='text'
                         required
                         value={postTitle}
                         onChange={(e) => setPostTitle(e.target.value)}
                     />
-                </label>
-                <label>Subtitle:
+                    <button type="button" onClick={() => setPostTitle(capitalizeCase())}>Capitalize Title</button>
+                </div>
+                <div className='subtitle-input'>
                     <input
+                        placeholder='Subtitle'
                         type='text'
                         required
                         value={postSubtitle}
                         onChange={(e) => setPostSubtitle(e.target.value)}
                     />
-                </label>
-                <label>Post text:
-                    <textarea
-                        required
-                        value={postText}
-                        onChange={(e) => setPostText(e.target.value)}
-                    >
-                    </textarea>
-                </label>
-                <label>Tags:
+                </div>
+                <>
+                    <Editor
+                        tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
+                        onInit={(evt, editor) => editorRef.current = editor}
+                        initialValue='<p>Post text</p>'
+                        init={{
+                            height: 500,
+                            menubar: false,
+                            plugins: [
+                                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                                'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
+                            ],
+                            toolbar: 'undo redo | blocks | ' +
+                                'bold italic forecolor | alignleft aligncenter ' +
+                                'alignright alignjustify | bullist numlist outdent indent | ' +
+                                'removeformat | help',
+                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }'
+                        }}
+                        value={contentEditor}
+                        onEditorChange={handleEditorChange}
+                    />
+                </>
+                <div className='add-tags'>
                     <input
+                        placeholder='Press enter to add a tag'
                         type='text'
-                        required
-                        value={postTags}
-                        onChange={(e) => setPostTags(e.target.value)}
+                        onKeyDown={handleTagEnter}
                     >
                     </input>
-                </label>
-                <label>Upload image:
+                </div>
+                <div className='added-tags'>
+                    {postTags.length !== 0 && postTags.map(el => {
+                        return (
+                            <div key={el} className='added-tag'>
+                                <p>{el}</p>
+                                <div
+                                    className='close-tag'
+                                    onClick={() => { setPostTags(postTags.filter(e => e !== el)) }}
+                                >
+                                    &times;
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+                <label className='custom-file-upload'>
+                    <Icon path={mdiCloudUpload}
+                        title="User Profile"
+                        size='2rem'
+                        color="white"
+                    />
+                    Upload image
                     <input
+                        name='upload-file'
                         ref={inputFileRef}
                         required
                         type='file'
@@ -120,10 +198,12 @@ const NewPost = () => {
                         onChange={handleChangeFile}
                     />
                 </label>
-                <input type='submit'></input>
+                {imageUrl !== '' && (
+                    <p className='uploaded-image'>Uploaded: {imageUrl.replace('http://localhost:8000/uploads/', '')}</p>
+                )}
+                <input className='submit-button' type='submit' />
             </form>
-            <p>{postStatus}</p>
-            <button onClick={() => navigate('/')}>Home</button>
+            <p className='post-status'>{postStatus}</p>
         </div>
     )
 }

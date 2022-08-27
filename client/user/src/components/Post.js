@@ -5,6 +5,7 @@ import HeaderSimple from './HeaderSimple';
 import Footer from './Footer';
 import './Post.css'
 import PostLoader from './PostLoader';
+import parseHtml from 'html-react-parser';
 
 const Post = () => {
     const navigate = useNavigate();
@@ -19,18 +20,25 @@ const Post = () => {
             .then(function (response) {
                 const post = response.data.find((post) => post._id === postId);
                 setPost(post);
-                const latest = response.data.slice(-3)
-                setLatestPosts(latest);
+                const latest = response.data.slice(-4).filter(el => el._id !== postId);
+                setLatestPosts(() => {
+                    if (latest.length === 4) {
+                        return latest.slice(1)
+                    } else {
+                        return latest;
+                    }
+                });
             })
             .catch((err) => console.log(err, 'it has an error'))
             .finally(() => setLoading(false))
     }
-
+    
     const displayLatest = latestPosts.map(latest => {
         const changePost = () => {
             navigate(`/posts/${latest._id}`);
             navigate(0);
         }
+
         return (
             <div onClick={changePost} className='latest-post' key={latest._id}>
                 <img
@@ -64,7 +72,7 @@ const Post = () => {
                         </div>
                         <div className='post-container'>
                             <div className='post-body'>
-                                <p>{post.text}</p>
+                                {parseHtml(post.text)}
                             </div>
                             <div className='latest-posts'>
                                 {displayLatest}

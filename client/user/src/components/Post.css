@@ -19,7 +19,7 @@
 
 .post-title h1 {
   position: relative;
-  bottom: 150px;
+  bottom: 160px;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
   max-width: 1000px;
@@ -52,6 +52,14 @@
   background-color: white;
   padding: 40px;
   position: relative;
+  font-family: "Merriweather", Georgia, "Times New Roman", Times, serif;
+}
+
+.post-body h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  padding-bottom: 0.67rem;
+  border-bottom: 1px solid rgb(167, 167, 167);
 }
 
 .post-body p {
@@ -62,7 +70,7 @@
   position: relative;
   word-wrap: break-word;
   text-overflow: ellipsis;
-  font-family: "Merriweather", Georgia, "Times New Roman", Times, serif;
+  margin-block: 1.5rem;
 }
 
 .latest-posts {
@@ -144,6 +152,14 @@
     margin: 0;
   }
 
+  .post-body h2 {
+    font-size: 1.8rem;
+  }
+
+  .post-body p {
+    margin-block: 1.2rem;
+  }
+
   .latest-posts {
     flex-direction: column;
   }
@@ -165,6 +181,14 @@
   .post-title span {
     font-size: 1.5rem;
     line-height: 150%;
+  }
+
+  .post-body h2 {
+    font-size: 1.5rem;
+  }
+
+  .post-body p {
+    margin-block: 1rem;
   }
 
   .latest-post h1 {

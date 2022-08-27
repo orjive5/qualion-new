@@ -1,9 +1,16 @@
 import React from "react";
 
 const Footer = () => {
+  const scrollToTop = () => {
+    window.scroll({
+      top: 0, 
+      left: 0, 
+      behavior: 'smooth' 
+     });
+  }
   return (
     <footer>
-      <h1>Footer</h1>
+      <button onClick={scrollToTop}>Scroll to the top</button>
     </footer>
   )
 }

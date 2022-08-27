@@ -8,8 +8,7 @@ const Main = () => {
     axios
         .get('http://localhost:8000/posts')
         .then((res) => {
-            const publishedPosts = res.data.filter(element => element.isPublished === true)
-            setAllData(publishedPosts)
+            setAllData(res.data)
         })
         .catch((err) => console.log(err, 'Arrgh, it\'s an error...'))
   }
@@ -36,6 +35,9 @@ const Main = () => {
               alt=""
             />
           </Link>
+          <h1>
+            {!singleData.isPublished && 'Not published!'}
+          </h1>
           <p>{timestamp}</p>
           <p>#{singleData.tags.join(' #')}</p>
         </article>

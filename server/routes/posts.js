@@ -3,12 +3,12 @@ const bcrypt = require('bcrypt');
 const UserModel = require('../models/User');
 const checkAuth = require('../utils/checkAuth');
 const PostController = require('../controllers/PostController');
-const { postCreateValidation } = require('../validations');
+const { postCreateValidation, postUpdateValidation } = require('../validations');
 
 router.get('/', PostController.getAll);
 router.get('/:id', PostController.getOne);
 router.post('/', checkAuth, postCreateValidation, PostController.create);
 router.delete('/:id', checkAuth, PostController.remove);
-router.put('/:id', checkAuth, postCreateValidation, PostController.update);
+router.put('/:id', checkAuth, postUpdateValidation, PostController.update);
 
 module.exports = router

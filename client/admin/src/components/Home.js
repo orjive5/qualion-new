@@ -4,6 +4,7 @@ import axios from 'axios';
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
+import './Home.css'
 
 const Home = () => {
     const navigate = useNavigate();
