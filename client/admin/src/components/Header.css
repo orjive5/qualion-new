@@ -1,0 +1,36 @@
+.navbar {
+  background-color: black;
+  color: white;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+
+.qualion-banner {
+  height: 60px;
+  cursor: pointer;
+}
+
+.navbar button {
+  font-size: 1.2rem;
+  background-color: black;
+  border: 1px solid white;
+  color: white;
+  padding: 7px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+
+.navbar button:hover {
+  background-color: white;
+  color: black;
+}

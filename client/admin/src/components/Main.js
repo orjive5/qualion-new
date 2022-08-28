@@ -4,16 +4,17 @@ import axios from 'axios'
 import './Main.css'
 
 const Main = () => {
+  const [allData, setAllData] = useState([]);
+
   const getAllData = () => {
     axios
         .get('http://localhost:8000/posts')
         .then((res) => {
-            setAllData(res.data)
+            setAllData(res.data.reverse())
         })
         .catch((err) => console.log(err, 'Arrgh, it\'s an error...'))
   }
 
-  const [allData, setAllData] = useState([]);
   useEffect(() => { getAllData() }, []);
   
   const postListings = allData.map((singleData) => {
@@ -25,26 +26,28 @@ const Main = () => {
       }
     )
       return (
-        <article key={singleData._id}>
-          <Link to={`/posts/${singleData._id}`}>
-            <h1>{singleData.title}</h1>
-          </Link>
+        <article key={singleData._id} className='post-article'>
           <Link to={`/posts/${singleData._id}`}>
           <img
               src={singleData.imageUrl}
               alt=""
             />
           </Link>
-          <h1>
-            {!singleData.isPublished && 'Not published!'}
-          </h1>
-          <p>{timestamp}</p>
-          <p>#{singleData.tags.join(' #')}</p>
+          <div className="article-details">
+            <Link to={`/posts/${singleData._id}`} style={{ textDecoration: 'none' }}>
+              <h1 className="article-title">{singleData.title}</h1>
+            </Link>
+            <h1 className="article-published">
+              {singleData.isPublished ? 'Post published' : 'Not published'}
+            </h1>
+            <p>{timestamp}</p>
+            <p>#{singleData.tags.join(' #')}</p>
+          </div>
         </article>
       )
-  }).reverse()
+  })
   return (
-    <main className="main">
+    <main>
       <section className="display-posts">
         {postListings}
             </section>

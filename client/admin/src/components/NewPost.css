@@ -1,22 +1,29 @@
+.new-post {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .create-new-post {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: "DIN", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
   color: #363636;
   width: 800px;
   border-radius: 10px;
   padding-block: 50px;
+  margin-block: 50px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  background-color: white;
 }
 
 .create-new-post h1 {
   text-align: center;
   font-size: 3rem;
-  font-family: "DIN", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 500;
   line-height: 1.4;
   color: black;

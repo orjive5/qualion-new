@@ -1,0 +1,40 @@
+.footer {
+  background-color: black;
+  width: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer button {
+  font-size: 1.2rem;
+  background-color: black;
+  border: 1px solid white;
+  color: white;
+  padding: 7px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+  position: fixed;
+  right: 20px;
+  bottom: 10px;
+}
+
+footer button:hover {
+  background-color: white;
+  color: black;
+}
+
+.up-arrow {
+  width: 1.5rem;
+}
+
+.up-arrow:hover {
+  color: black;
+}
+
+.qualion-logo {
+  width: 60px;
+}

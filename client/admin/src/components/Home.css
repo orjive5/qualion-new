@@ -129,12 +129,8 @@ table {
 
 body {
   min-height: 100vh;
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 50px;
+  width: 100%;
+  font-family: "DIN", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .home {

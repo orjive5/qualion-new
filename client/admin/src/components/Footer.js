@@ -1,4 +1,8 @@
 import React from "react";
+import './Footer.css'
+import qualionLogo from '../assets/qualion-logo.png'
+import Icon from '@mdi/react'
+import { mdiArrowUpBold } from '@mdi/js'
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -9,8 +13,15 @@ const Footer = () => {
      });
   }
   return (
-    <footer>
-      <button onClick={scrollToTop}>Scroll to the top</button>
+    <footer className="footer">
+      <img src={qualionLogo} alt='qualion' className="qualion-logo" />
+      <button onClick={scrollToTop}>
+        <Icon
+          className="up-arrow"
+          path={mdiArrowUpBold}
+          title="Scroll to the top"
+        />
+      </button>
     </footer>
   )
 }
