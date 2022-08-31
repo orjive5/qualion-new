@@ -5,6 +5,15 @@
   justify-content: space-between;
 }
 
+.component-loading {
+  align-self: center;
+}
+
+.component-loading h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
 .post-main img {
   width: 100%;
   height: 500px;
@@ -23,6 +32,14 @@
 
 .post-main button:hover {
   background-color: #01acce;
+}
+
+button.delete-post {
+  background-color: #e01e37;
+}
+
+button.delete-post:hover {
+  background-color: #c71f37;
 }
 
 .post-info {
@@ -47,4 +64,96 @@
   line-height: 150%;
   max-width: 100%;
   word-wrap: break-word;
+}
+
+.update-title,
+.update-subtitle {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.update-title input,
+.update-subtitle input {
+  height: 46px;
+  width: 60%;
+  padding: 10px 15px;
+  font-size: 18px;
+  line-height: 46px;
+  border-radius: 2px;
+  color: #111;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border-color ease-in-out 0.3s, box-shadow ease-in-out 0.3s;
+}
+
+.update-title input:focus,
+.update-subtitle input:focus {
+  border-color: #33f;
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(51 51 255 / 30%);
+}
+
+button.close-button {
+  background-color: #e01e37;
+}
+
+button.close-button:hover {
+  background-color: #c71f37;
+}
+
+button.update-button {
+  background-color: #00f;
+}
+
+button.update-button:hover {
+  background-color: #0000e6;
+}
+
+.update-text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.post-info hr {
+  width: 100%;
+  margin-block: 20px;
+  border: 0;
+  border-top: 1px solid #e2e2e2;
+}
+
+.update-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  width: 60%;
+}
+
+.added-tags {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.close-tag {
+  padding: 2px 3px;
+}
+
+.display-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 60%;
+  align-items: center;
+}
+
+.displayed-tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }

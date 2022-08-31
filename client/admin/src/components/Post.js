@@ -4,20 +4,21 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import './Post.css'
-import { html } from 'js-beautify'
 
 const Post = () => {
+    const [isLoading, setLoading] = useState(true);
     const navigate = useNavigate();
     const { postId } = useParams();
     const [post, setPost] = useState([]);
     const [published, setPublished] = useState(true);
-    const [tags, setTags] = useState('');
     const [postTitle, setPostTitle] = useState('');
     const [updateTitle, setUpdateTitle] = useState(false);
     const [postSubtitle, setPostSubtitle] = useState('');
     const [updateSubtitle, setUpdateSubtitle] = useState(false);
     const [postText, setPostText] = useState('');
     const [updateText, setUpdateText] = useState(false);
+    const [postTags, setPostTags] = useState('');
+    const [updateTags, setUpdateTags] = useState(false);
 
     const loadPosts = () => {
         axios.get('http://localhost:8000/posts')
@@ -27,10 +28,11 @@ const Post = () => {
                 setPostTitle(post.title);
                 setPostSubtitle(post.subtitle);
                 setPostText(post.text);
-                setTags(post.tags.map((el => `#${el} `)));
+                setPostTags(post.tags.map((el => `${el}`)));
                 setPublished(post.isPublished);
             })
-            .catch((err) => console.log(err, 'it has an error'));
+            .catch((err) => console.log(err, 'it has an error'))
+            .finally(() => setLoading(false));
     }
 
     const timestamp = new Date(post.createdAt).toLocaleDateString('en-us', {
@@ -59,23 +61,66 @@ const Post = () => {
             title: postTitle,
             subtitle: postSubtitle,
             text: postText,
+            tags: postTags,
         }, { headers })
             .then((response) => {
                 console.log(response);
                 setUpdateTitle(false);
                 setUpdateSubtitle(false);
                 setUpdateText(false);
+                setUpdateTags(false);
+            }).catch(err => {
+                console.log(err)
+            })
+    }
+
+    const deletePost = () => {
+        axios.delete(`http://localhost:8000/posts/${postId}`, { headers })
+            .then((response) => {
+                console.log(response);
+                navigate('/');
             }).catch(err => {
                 console.log(err)
             })
     }
 
     useEffect(() => { loadPosts() }, []);
+
+    //Handle Tags
+    const handleTagEnter = (e) => {
+        if (e.key === 'Enter') {
+            setPostTags([
+                ...postTags,
+                e.target.value,
+            ])
+            e.target.value = ''
+        }
+    }
+
+    const editOrCloseTitle = () => {
+        updateTitle && loadPosts()
+        setUpdateTitle(!updateTitle);
+    }
+
+    const editOrCloseSubtitle = () => {
+        updateSubtitle && loadPosts()
+        setUpdateSubtitle(!updateSubtitle);
+    }
+
+    const editOrCloseText = () => {
+        updateText && loadPosts()
+        setUpdateText(!updateText);
+    }
+
+    const editOrCloseTags = () => {
+        updateTags && loadPosts()
+        setUpdateTags(!updateTags);
+    }
     
     return (
         <div className="post">
             <Header />
-            <div className='post-main'>
+            {isLoading ? <div className="component-loading"><h1>Loading...</h1></div> : (<div className='post-main'>
                 <img
                     src={post.imageUrl}
                     alt=""
@@ -83,55 +128,116 @@ const Post = () => {
                 />
                 <div className='post-info'>
                     <h1>{postTitle}</h1>
-                    <button onClick={() => setUpdateTitle(!updateTitle)}>
+                    <button
+                        className={updateTitle ? 'close-button' : 'update-title-button'}
+                        onClick={editOrCloseTitle}
+                    >
                         {updateTitle ? 'Close' : 'Update title'}
                     </button>
                     {updateTitle && (
-                        <div>
+                        <div className='update-title'>
                             <input
                                 type='text'
                                 placeholder='Enter new title'
                                 value={postTitle}
                                 onChange={(e) => setPostTitle(e.target.value)}
                             />
-                            <button onClick={updatePost}>Update</button>
+                            <button className='update-button' onClick={updatePost}>Update</button>
                         </div>
                     )}
+                    <hr></hr>
                     <h2>{postSubtitle}</h2>
-                    <button onClick={() => setUpdateSubtitle(!updateSubtitle)}>
+                    <button
+                        className={updateSubtitle ? 'close-button' : 'update-subtitle-button'}
+                        onClick={editOrCloseSubtitle}
+                    >
                         {updateSubtitle ? 'Close' : 'Update subtitle'}
                     </button>
                     {updateSubtitle && (
-                        <div>
+                        <div className='update-subtitle'>
                             <input
                                 type='text'
                                 placeholder='Enter new title'
                                 value={postSubtitle}
                                 onChange={(e) => setPostSubtitle(e.target.value)}
                             />
-                            <button onClick={updatePost}>Update</button>
+                            <button className='update-button' onClick={updatePost}>Update</button>
                         </div>
                     )}
+                    <hr></hr>
                     <p>{postText}</p>
-                    <button onClick={() => setUpdateText(!updateText)}>
+                    <button
+                        className={updateText ? 'close-button' : 'update-text-button'}
+                        onClick={editOrCloseText}
+                    >
                         {updateText ? 'Close' : 'Update text'}
                     </button>
                     {updateText && (
-                        <div>
+                        <div className='update-text'>
                             <textarea
-                            type='text'
-                            placeholder='Enter new title'
-                            value={postText}
-                            onChange={(e) => setPostText(e.target.value)}></textarea>
-                            <button onClick={updatePost}>Update</button>
+                                rows={20}
+                                cols={80}
+                                type='text'
+                                placeholder='Enter new title'
+                                value={postText}
+                                onChange={(e) => setPostText(e.target.value)}></textarea>
+                            <button className='update-button' onClick={updatePost}>Update</button>
                         </div>
                     )}
-                    <p>{tags}</p>
+                    <hr></hr>
+                    <div className='display-tags'>
+                        <h2>Tags:</h2>
+                        <div className='displayed-tags'>
+                            {postTags.length !== 0 && postTags.map(el => {
+                                return (
+                                    <p key={el}>#{el}</p>
+                                )
+                            })}
+                        </div>
+                    </div>
+                    <button
+                        className={updateTags ? 'close-button' : 'update-tags-button'}
+                        onClick={editOrCloseTags}
+                    >
+                        {updateTags ? 'Close' : 'Update tags'}
+                    </button>
+                    {updateTags && (
+                        <div className='update-tags'>
+                            <div className='add-tags'>
+                                <input
+                                    placeholder='Press enter to add a tag'
+                                    type='text'
+                                    onKeyDown={handleTagEnter}
+                                >
+                                </input>
+                            </div>
+                            <div className='added-tags'>
+                                {postTags.length !== 0 && postTags.map(el => {
+                                    return (
+                                        <div key={el} className='added-tag'>
+                                            <p>{el}</p>
+                                            <div
+                                                className='close-tag'
+                                                onClick={() => { setPostTags(postTags.filter(e => e !== el)) }}
+                                            >
+                                                &times;
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            <button className='update-button' onClick={updatePost}>Update</button>
+                        </div>
+                    )}
+                    <hr></hr>
                     <p>Published: {published ? 'true' : 'false'}</p>
                     <button onClick={togglePublished}>{published ? 'Unpublish post' : 'Publish post'}</button>
+                    <hr></hr>
                     <p>{timestamp}</p>
+                    <hr></hr>
+                    <button onClick={deletePost} className='delete-post'>Delete post</button>
                 </div>
-            </div>
+            </div>)}
             <Footer />
         </div>
     );

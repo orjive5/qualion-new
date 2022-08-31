@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import './Login.css'
 
 const Login = () => {
     const navigate = useNavigate();
@@ -36,9 +37,9 @@ const Login = () => {
     }
   return (
     <div className="login">
-      <input type='email' placeholder="Enter email" value={email} onChange={event => setEmail(event.target.value)}></input>
-      <input type='password' placeholder="Enter password" value={password} onChange={event => setPassword(event.target.value)}></input>
-      <button onClick={submit}>Submit</button>
+        <input type='email' placeholder="Enter email" value={email} onChange={event => setEmail(event.target.value)}></input>
+        <input type='password' placeholder="Enter password" value={password} onChange={event => setPassword(event.target.value)}></input>
+        <button onClick={submit}>Sign In</button>
     </div>
   )
 }

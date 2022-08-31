@@ -5,6 +5,7 @@ import './Main.css'
 
 const Main = () => {
   const [allData, setAllData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
   const getAllData = () => {
     axios
@@ -12,7 +13,8 @@ const Main = () => {
         .then((res) => {
             setAllData(res.data.reverse())
         })
-        .catch((err) => console.log(err, 'Arrgh, it\'s an error...'))
+      .catch((err) => console.log(err, 'Arrgh, it\'s an error...'))
+      .finally(() => setLoading(false))
   }
 
   useEffect(() => { getAllData() }, []);
@@ -37,7 +39,7 @@ const Main = () => {
             <Link to={`/posts/${singleData._id}`} style={{ textDecoration: 'none' }}>
               <h1 className="article-title">{singleData.title}</h1>
             </Link>
-            <h1 className="article-published">
+            <h1 className={singleData.isPublished ? 'article-published' : 'article-not-published'}>
               {singleData.isPublished ? 'Post published' : 'Not published'}
             </h1>
             <p>{timestamp}</p>
@@ -49,9 +51,9 @@ const Main = () => {
   return (
     <main>
       <section className="display-posts">
-        {postListings}
-            </section>
-        </main>
+        {isLoading ? <div className="component-loading"><h1>Loading...</h1></div> : postListings}
+      </section>
+    </main>
   )
 }
 

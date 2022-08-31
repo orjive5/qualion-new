@@ -106,10 +106,12 @@ const NewPost = () => {
     //Handle Tags
     const handleTagEnter = (e) => {
         if (e.key === 'Enter') {
-            setPostTags([
-                ...postTags,
-                e.target.value,
-            ])
+            if (!postTags.includes(e.target.value)) {
+                setPostTags([
+                    ...postTags,
+                    e.target.value,
+                ])
+            }
             e.target.value = ''
         }
     }
