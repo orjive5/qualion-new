@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from './Header';
@@ -11,6 +11,9 @@ const Post = () => {
     const { postId } = useParams();
     const [post, setPost] = useState([]);
     const [published, setPublished] = useState(true);
+    const [postImage, setPostImage] = useState('');
+    const [updateImage, setUpdateImage] = useState(false);
+    const inputFileRef = useRef(null);
     const [postTitle, setPostTitle] = useState('');
     const [updateTitle, setUpdateTitle] = useState(false);
     const [postSubtitle, setPostSubtitle] = useState('');
@@ -25,6 +28,7 @@ const Post = () => {
             .then(function (response) {
                 const post = response.data.find((post) => post._id === postId);
                 setPost(post);
+                setPostImage(post.imageUrl);
                 setPostTitle(post.title);
                 setPostSubtitle(post.subtitle);
                 setPostText(post.text);
@@ -35,12 +39,13 @@ const Post = () => {
             .finally(() => setLoading(false));
     }
 
-    const timestamp = new Date(post.createdAt).toLocaleDateString('en-us', {
+    const timestamp = new Date(post.createdAt).toLocaleDateString(
+        'en-us', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
         weekday: 'long',
-    }
+        }
     );
 
     const token = localStorage.getItem('token');
@@ -58,13 +63,14 @@ const Post = () => {
 
     const updatePost = () => {
         axios.put(`http://localhost:8000/posts/${postId}`, {
+            imageUrl: postImage,
             title: postTitle,
             subtitle: postSubtitle,
             text: postText,
             tags: postTags,
         }, { headers })
             .then((response) => {
-                console.log(response);
+                setUpdateImage(false);
                 setUpdateTitle(false);
                 setUpdateSubtitle(false);
                 setUpdateText(false);
@@ -74,13 +80,26 @@ const Post = () => {
             })
     }
 
+    const reloadImage = async () => {
+        updatePost();
+        window.location.reload();
+    }
+
+
     const deletePost = () => {
         axios.delete(`http://localhost:8000/posts/${postId}`, { headers })
             .then((response) => {
                 console.log(response);
                 navigate('/');
             }).catch(err => {
-                console.log(err)
+                console.log(err);
+            })
+        const imageName = postImage.replace('http://localhost:8000/uploads/', '')
+        axios.delete(`http://localhost:8000/delete-image/${imageName}`, { headers })
+            .then((response) => {
+                console.log(response);
+            }).catch(err => {
+                console.log(err);
             })
     }
 
@@ -97,26 +116,53 @@ const Post = () => {
         }
     }
 
+    const editOrCloseImage = () => {
+        updateImage && loadPosts()
+        setUpdateImage(!updateImage);
+    }
     const editOrCloseTitle = () => {
         updateTitle && loadPosts()
         setUpdateTitle(!updateTitle);
     }
-
     const editOrCloseSubtitle = () => {
         updateSubtitle && loadPosts()
         setUpdateSubtitle(!updateSubtitle);
     }
-
     const editOrCloseText = () => {
         updateText && loadPosts()
         setUpdateText(!updateText);
     }
-
     const editOrCloseTags = () => {
         updateTags && loadPosts()
         setUpdateTags(!updateTags);
     }
-    
+
+    //Handle image upload
+    const handleChangeFile = async (event) => {
+        try {
+            const formData = new FormData();
+            const file = event.target.files[0];
+            formData.append('image', file);
+            const token = localStorage.getItem('token');
+            const { data } = await axios.post('http://localhost:8000/upload', formData, {
+                headers: {
+                    Authorization: token,
+                }
+            })
+            setPostImage(`http://localhost:8000${data.url}`)
+            const imageName = postImage.replace('http://localhost:8000/uploads/', '')
+            axios.delete(`http://localhost:8000/delete-image/${imageName}`, { headers })
+                .then((response) => {
+                    console.log(response);
+                }).catch(err => {
+                    console.log(err);
+                })
+        } catch (err) {
+            console.warn(err);
+            alert('Failed to upload a file!')
+        }
+    }
+
     return (
         <div className="post">
             <Header />
@@ -127,6 +173,35 @@ const Post = () => {
                     width='200px'
                 />
                 <div className='post-info'>
+                    {/* UPDATE IMAGE */}
+                    <button
+                        className={updateImage ? 'close-button' : 'update-image-button'}
+                        onClick={editOrCloseImage}
+                    >
+                        {updateImage ? 'Close' : 'Update image'}
+                    </button>
+                    {updateImage && (
+                        <div className='update-image'>
+                            <div className='current-image'>
+                                <p>Current image:</p>
+                                <p>{postImage}</p>
+                            </div>
+                            <label className='custom-image-upload'>
+                                Upload new image
+                                <input
+                                    name='upload-file'
+                                    ref={inputFileRef}
+                                    required
+                                    type='file'
+                                    filename='img'
+                                    onChange={handleChangeFile}
+                                />
+                            </label>
+                            <button className='update-button' onClick={reloadImage}>Update</button>
+                        </div>
+                    )}
+                    <hr></hr>
+                    {/* UPDATE TITLE */}
                     <h1>{postTitle}</h1>
                     <button
                         className={updateTitle ? 'close-button' : 'update-title-button'}
@@ -146,6 +221,7 @@ const Post = () => {
                         </div>
                     )}
                     <hr></hr>
+                    {/* UPDATE SUBTITLE */}
                     <h2>{postSubtitle}</h2>
                     <button
                         className={updateSubtitle ? 'close-button' : 'update-subtitle-button'}
@@ -165,6 +241,7 @@ const Post = () => {
                         </div>
                     )}
                     <hr></hr>
+                    {/* UPDATE TEXT */}
                     <p>{postText}</p>
                     <button
                         className={updateText ? 'close-button' : 'update-text-button'}
@@ -185,6 +262,7 @@ const Post = () => {
                         </div>
                     )}
                     <hr></hr>
+                    {/* UPDATE TAGS */}
                     <div className='display-tags'>
                         <h2>Tags:</h2>
                         <div className='displayed-tags'>
@@ -230,11 +308,21 @@ const Post = () => {
                         </div>
                     )}
                     <hr></hr>
+                    {/* UPDATE PUBLISHED */}
                     <p>Published: {published ? 'true' : 'false'}</p>
                     <button onClick={togglePublished}>{published ? 'Unpublish post' : 'Publish post'}</button>
                     <hr></hr>
+                    {/* TIMESTAMP */}
                     <p>{timestamp}</p>
                     <hr></hr>
+                    {/* VIEW POST */}
+                    <button
+                        onClick={() => window.open(`http://localhost:3000/posts/${postId}`, '_blank', 'noopener,noreferrer')}
+                    >
+                        View post
+                    </button>
+                    <hr></hr>
+                    {/* DELETE POST */}
                     <button onClick={deletePost} className='delete-post'>Delete post</button>
                 </div>
             </div>)}

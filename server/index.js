@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const fs =require('fs')
 
 const multer = require('multer');
 
@@ -31,7 +32,7 @@ const storage = multer.diskStorage({
         cb(null, 'uploads');
     },
     filename: (_, file, cb) => {
-        cb(null, file.originalname);
+        cb(null, Date.now() + '-' + file.originalname);
     },
 });
 
@@ -64,9 +65,24 @@ app.get('/protected', checkAuth, (req, res) => {
 //Upload image
 app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
     res.json({
-        url: `/uploads/${req.file.originalname}`
+        url: `/uploads/${req.file.filename}`
     });
 })
+
+//Delete uploaded image
+app.delete('/delete-image/:imageName', checkAuth, async (req, res) => {
+    const imageName = req.params.imageName;
+    const imagePath = `./uploads/${imageName}`;
+    fs.unlink(imagePath, (err) => {
+        res.json({
+            message: 'Image deleted successfully!'
+        })
+        if (err) {
+            console.error(err)
+            return
+        }
+    })
+});
 
 app.listen(8000, () => {
     console.log('Server is OK')

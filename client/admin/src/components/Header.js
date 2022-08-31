@@ -53,6 +53,11 @@ const Header = () => {
           New post
         </button>
       )}
+      <button
+        onClick={() => window.open('http://localhost:3000/', '_blank', 'noopener,noreferrer')}
+      >
+        View website
+      </button>
       <button onClick={logOut}>Log out</button>
     </nav>
   )

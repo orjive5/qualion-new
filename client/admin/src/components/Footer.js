@@ -14,7 +14,12 @@ const Footer = () => {
   }
   return (
     <footer className="footer">
-      <img src={qualionLogo} alt='qualion' className="qualion-logo" />
+      <div className="logo-copyright">
+        <img src={qualionLogo} alt='qualion' className="qualion-logo" />
+        <p>
+          Copyright © 2022, Qualion, LLC All Rights Reserved.
+        </p>
+      </div>
       <button onClick={scrollToTop}>
         <Icon
           className="up-arrow"
