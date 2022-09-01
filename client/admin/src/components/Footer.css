@@ -9,7 +9,6 @@
 }
 
 .footer button {
-  font-size: 1.2rem;
   background-color: black;
   border: 2px solid white;
   color: white;
@@ -26,7 +25,7 @@
 footer button:hover {
   background-color: white;
   color: black;
-  border: 2px solid black;
+  border-color: black;
 }
 
 .up-arrow {
@@ -44,9 +43,28 @@ footer button:hover {
 .logo-copyright {
   color: #414c75;
   font-size: 12px;
-  margin: 12px 0;
+  margin-block: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .qualion-logo {
+    width: 50px;
+  }
+
+  .up-arrow {
+    width: 1.3rem;
+  }
+
+  .footer button {
+    border: 1px solid white;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    right: 20px;
+    bottom: 40px;
+  }
 }

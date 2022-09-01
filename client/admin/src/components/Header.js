@@ -1,20 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import './Header.css'
 import qualionBanner from '../assets/qualion-banner.jpg';
 import Icon from '@mdi/react';
-import { mdiMagnify } from '@mdi/js';
+import { mdiMagnify, mdiMenu } from '@mdi/js';
 
 const Header = ({setFoundData}) => {
   const [searchBar, setSearchBar] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const ref = useRef(null);
   const location = useLocation();
-  const [currentLocation, setCurrentLocation] = useState(location.pathname);
+  const [currentLocation] = useState(location.pathname);
   const navigate = useNavigate();
   const [store, setStore] = useState('');
   const [allData, setAllData] = useState([]);
+  const [navDropdown, setNavDropdown] = useState(false);
 
   const getAllData = () => {
     axios
@@ -23,7 +24,9 @@ const Header = ({setFoundData}) => {
         const publishedPosts = res.data.filter(element => element.isPublished === true).reverse();
         setAllData(publishedPosts);
       })
-      .catch((err) => console.log(err, 'Arrgh, it\'s an error...'))
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   const searchResults = () => {
@@ -40,10 +43,7 @@ const Header = ({setFoundData}) => {
     setSearchValue('');
     setFoundData([]);
     setSearchBar(false);
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    scrollToTop();
   }
 
   const logOut = () => {
@@ -59,9 +59,15 @@ const Header = ({setFoundData}) => {
      });
   }
 
+  const toggleNavDropdown = () => {
+    setNavDropdown(!navDropdown)
+    setSearchBar(false);
+  }
+
   const handleQualion = () => {
     if (currentLocation === '/') {
       clearSearch();
+      setNavDropdown(false)
       scrollToTop();
     } else {
       navigate('/')
@@ -84,7 +90,12 @@ const Header = ({setFoundData}) => {
   
   const toggleSearchBar = () => {
     clearSearch();
-    setSearchBar(!searchBar)
+    setSearchBar(!searchBar);
+    setNavDropdown(false);
+  }
+
+  const viewWebsite = () => {
+    window.open('http://localhost:3000/', '_blank', 'noopener,noreferrer');
   }
 
   useEffect(() => {
@@ -101,7 +112,15 @@ const Header = ({setFoundData}) => {
 
   return (
     <nav className="navbar">
-      <img onClick={handleQualion} src={qualionBanner} alt='qualion' className="qualion-banner" />
+      <img onClick={handleQualion} src={qualionBanner} alt='Qualion banner' className="qualion-banner" />
+      <Icon
+        path={mdiMenu}
+        title="Navigation menu"
+        className="hamburger-menu"
+        size='1.5rem'
+        color='white'
+        onClick={toggleNavDropdown}
+      />
       {currentLocation !== '/' && (
         <button onClick={() => navigate('/')}>
           Home
@@ -112,31 +131,55 @@ const Header = ({setFoundData}) => {
           New post
         </button>
       )}
-      <button
-        onClick={() => window.open('http://localhost:3000/', '_blank', 'noopener,noreferrer')}
-      >
+      <button onClick={viewWebsite}>
         View website
       </button>
-      <button onClick={logOut}>Log out</button>
-      {currentLocation === '/' && (<div className="search-bar">
-        {searchBar && (
-          <input
-            ref={ref}
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            className="search-input"
-            type='text'
+      <button onClick={logOut}>
+        Log out
+      </button>
+      {currentLocation === '/' && (
+        <div className="search-bar">
+          {searchBar && (
+            <input
+              ref={ref}
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className="search-input"
+              type='text'
+            />
+          )}
+          <Icon
+            path={mdiMagnify}
+            title="Search icon"
+            className="search-icon"
+            size='1.5rem'
+            color='white'
+            onClick={toggleSearchBar}
           />
-        )}
-        <Icon
-          path={mdiMagnify}
-          title="Search"
-          className="search-icon"
-          size='1.5rem'
-          color='white'
-          onClick={toggleSearchBar}
-        />
-        </div>)}
+        </div>
+      )}
+      {navDropdown && (
+        <div className="nav-dropdown-simple">
+          <div className="menu-pages">
+            {currentLocation !== '/' && (
+              <h1 onClick={() => navigate('/')}>
+                HOME
+              </h1>
+            )}
+            {currentLocation !== '/posts/new' && (
+              <h1 onClick={() => navigate('/posts/new')}>
+                NEW POST
+              </h1>
+            )}
+            <h1 onClick={() => window.open('http://localhost:3000/', '_blank', 'noopener,noreferrer')}>
+              VIEW WEBSITE
+            </h1>
+            <h1 onClick={logOut}>
+              LOG OUT
+            </h1>
+          </div>
+        </div>
+      )}
     </nav>
   )
 }

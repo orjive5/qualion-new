@@ -12,10 +12,15 @@ const Footer = () => {
       behavior: 'smooth' 
      });
   }
+
   return (
     <footer className="footer">
       <div className="logo-copyright">
-        <img src={qualionLogo} alt='qualion' className="qualion-logo" />
+        <img
+          src={qualionLogo}
+          alt='qualion'
+          className="qualion-logo"
+        />
         <p>
           Copyright © 2022, Qualion, LLC All Rights Reserved.
         </p>

@@ -10,7 +10,7 @@
 }
 
 .login input {
-  height: 46px;
+  max-height: 46px;
   padding: 10px 15px;
   font-size: 18px;
   line-height: 46px;
@@ -40,4 +40,23 @@
 .login button:hover {
   cursor: pointer;
   background-color: #01acce;
+}
+
+@media (max-width: 750px) {
+  .login {
+    gap: 10px;
+    width: 60vw;
+  }
+
+  .login input {
+    max-height: 30px;
+    padding: 7px 12px;
+    font-size: 14px;
+  }
+
+  .login button {
+    max-height: 45px;
+    font-size: 18px;
+    line-height: 40px;
+  }
 }

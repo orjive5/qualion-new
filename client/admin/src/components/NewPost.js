@@ -75,7 +75,6 @@ const NewPost = () => {
                 }
             })
             setImageUrl(`http://localhost:8000${data.url}`)
-            console.log(data)
         } catch (err) {
             console.warn(err);
             alert('Failed to upload a file!')
@@ -131,7 +130,12 @@ const NewPost = () => {
                             value={postTitle}
                             onChange={(e) => setPostTitle(e.target.value)}
                         />
-                        <button type="button" onClick={() => setPostTitle(camelCase())}>Camel Case Title</button>
+                        <button
+                            type="button"
+                            onClick={() => setPostTitle(camelCase())}
+                        >
+                            Camel Case Title
+                        </button>
                     </div>
                     <div className='subtitle-input'>
                         <input
@@ -205,7 +209,9 @@ const NewPost = () => {
                         />
                     </label>
                     {imageUrl !== '' && (
-                        <p className='uploaded-image'>Uploaded: {imageUrl.replace('http://localhost:8000/uploads/', '')}</p>
+                        <p className='uploaded-image'>
+                            Uploaded: {imageUrl.replace('http://localhost:8000/uploads/', '')}
+                        </p>
                     )}
                     <input className='submit-button' type='submit' />
                 </form>

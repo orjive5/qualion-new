@@ -9,6 +9,7 @@ import './Home.css'
 const Home = () => {
     const [foundData, setFoundData] = useState([]);
     const navigate = useNavigate();
+    
     useEffect(() => {
         const token = localStorage.getItem('token');
         axios.get('http://localhost:8000/protected', {

@@ -253,7 +253,6 @@ const Post = () => {
                         <div className='update-text'>
                             <textarea
                                 rows={20}
-                                cols={80}
                                 type='text'
                                 placeholder='Enter new title'
                                 value={postText}

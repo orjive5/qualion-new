@@ -1,4 +1,5 @@
 .new-post {
+  min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -13,7 +14,7 @@
   font-size: 14px;
   line-height: 1.428571429;
   color: #363636;
-  max-width: 800px;
+  width: 660px;
   border-radius: 10px;
   margin-block: 50px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -113,6 +114,9 @@
   align-items: center;
   gap: 15px;
   padding: 20px;
+  padding-top: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .add-tags {
@@ -139,7 +143,7 @@ input[type="file"] {
   gap: 10px;
 }
 
-.added-tag {
+div.added-tag {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -150,7 +154,7 @@ input[type="file"] {
   border-radius: 5px;
 }
 
-.added-tag:hover {
+div.added-tag:hover {
   cursor: pointer;
   background-color: #0000e6;
 }
@@ -171,4 +175,56 @@ input[type="file"] {
 .post-status {
   font-size: 2rem;
   font-weight: bold;
+}
+
+div.tox.tox-tinymce {
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .create-new-post {
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .create-new-post h1 {
+    font-size: 1.8rem;
+  }
+
+  .create-new-post hr {
+    margin-block: 10px;
+  }
+
+  .create-new-post form {
+    gap: 10px;
+    padding: 0;
+  }
+
+  .title-input {
+    gap: 10px;
+  }
+
+  .title-input input,
+  .subtitle-input input,
+  .add-tags input {
+    height: 35px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    line-height: 35px;
+  }
+
+  .submit-button {
+    height: 46px;
+    font-size: 1rem;
+    line-height: 46px;
+  }
+
+  .title-input button,
+  .custom-file-upload {
+    height: 46px;
+    font-size: 1rem;
+    line-height: 46px;
+  }
 }

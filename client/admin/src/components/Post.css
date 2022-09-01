@@ -36,6 +36,14 @@
   background-color: #01acce;
 }
 
+.added-tag {
+  background-color: #00b4d8;
+}
+
+.added-tag:hover {
+  background-color: #01acce;
+}
+
 button.delete-post {
   background-color: #e01e37;
 }
@@ -119,6 +127,11 @@ button.update-button:hover {
   flex-direction: column;
   gap: 10px;
   align-items: center;
+  width: 100%;
+}
+
+.update-text textarea {
+  width: 100%;
 }
 
 .post-info hr {
@@ -165,4 +178,49 @@ button.update-button:hover {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+}
+
+@media (max-width: 700px) {
+  .post-main img {
+    height: 300px;
+  }
+
+  .component-loading h1 {
+    font-size: 1rem;
+  }
+
+  .post-main button,
+  .custom-image-upload {
+    font-size: 1rem;
+    padding: 5px;
+  }
+
+  .post-info {
+    padding: 20px;
+  }
+
+  .current-image p {
+    line-height: 100%;
+  }
+
+  .post-info p {
+    font-size: 0.8rem;
+  }
+
+  .post-info h1 {
+    font-size: 1.2rem;
+  }
+
+  .post-info h2 {
+    font-size: 1rem;
+  }
+
+  .update-title input,
+  .update-subtitle input,
+  .add-tags input {
+    max-height: 35px;
+    min-width: 60%;
+    padding: 5px 10px;
+    font-size: 1rem;
+  }
 }

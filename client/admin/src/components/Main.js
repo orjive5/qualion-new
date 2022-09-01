@@ -13,17 +13,9 @@ const Main = ({ foundData }) => {
         .then((res) => {
             setAllData(res.data.reverse())
         })
-      .catch((err) => console.log(err, 'Arrgh, it\'s an error...'))
+      .catch((err) => console.log(err))
       .finally(() => setLoading(false))
   }
-
-  useEffect(() => { getAllData() }, []);
-
-  useEffect(() => {
-    if (foundData.length !== 0) {
-      setAllData(foundData);
-    }
-  },[foundData])
   
   const postListings = allData.map((singleData) => {
     const timestamp = new Date(singleData.createdAt).toLocaleDateString('en-us', {
@@ -34,26 +26,38 @@ const Main = ({ foundData }) => {
       }
     )
       return (
-        <article key={singleData._id} className='post-article'>
-          <Link to={`/posts/${singleData._id}`}>
-          <img
-              src={singleData.imageUrl}
-              alt=""
-            />
-          </Link>
-          <div className="article-details">
-            <Link to={`/posts/${singleData._id}`} style={{ textDecoration: 'none' }}>
-              <h1 className="article-title">{singleData.title}</h1>
+        <div className="post-listing" key={singleData._id}>
+          <article className='post-article'>
+            <Link to={`/posts/${singleData._id}`} className='image-link'>
+              <img
+                src={singleData.imageUrl}
+                alt=""
+              />
             </Link>
-            <h1 className={singleData.isPublished ? 'article-published' : 'article-not-published'}>
-              {singleData.isPublished ? 'Post published' : 'Not published'}
-            </h1>
-            <p>{timestamp}</p>
-            <p>#{singleData.tags.join(' #')}</p>
-          </div>
-        </article>
+            <div className="article-details">
+              <Link to={`/posts/${singleData._id}`} style={{ textDecoration: 'none' }}>
+                <h1 className="article-title">{singleData.title}</h1>
+              </Link>
+              <h1 className={singleData.isPublished ? 'article-published' : 'article-not-published'}>
+                {singleData.isPublished ? 'Post published' : 'Not published'}
+              </h1>
+              <p>{timestamp}</p>
+              <p>#{singleData.tags.join(' #')}</p>
+            </div>
+          </article>
+          <hr></hr>
+        </div>
       )
   })
+
+  useEffect(() => { getAllData() }, []);
+
+  useEffect(() => {
+    if (foundData.length !== 0) {
+      setAllData(foundData);
+    }
+  }, [foundData]);
+
   return (
     <main>
       <section className="display-posts">

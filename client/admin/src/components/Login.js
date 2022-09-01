@@ -15,7 +15,6 @@ const Login = () => {
             Authorization: token,
             }
         }).then(res => {
-            console.log(res);
             navigate('/')
         }).catch(err => {
             console.log(err)
@@ -24,11 +23,8 @@ const Login = () => {
     }, [])
 
     const submit = () => {
-        console.log(email, password)
-        axios
-            .post('http://localhost:8000/auth/login', { email, password })
+        axios.post('http://localhost:8000/auth/login', { email, password })
             .then(user => {
-                console.log(user)
                 localStorage.setItem('token', user.data.token);
                 navigate('/')
             }).catch(err => {
@@ -37,8 +33,18 @@ const Login = () => {
     }
   return (
     <div className="login">
-        <input type='email' placeholder="Enter email" value={email} onChange={event => setEmail(event.target.value)}></input>
-        <input type='password' placeholder="Enter password" value={password} onChange={event => setPassword(event.target.value)}></input>
+          <input
+            type='email'
+            placeholder="Enter email"
+            value={email}
+            onChange={event => setEmail(event.target.value)}
+          />
+          <input
+            type='password'
+            placeholder="Enter password"
+            value={password}
+            onChange={event => setPassword(event.target.value)}
+          />
         <button onClick={submit}>Sign In</button>
     </div>
   )
