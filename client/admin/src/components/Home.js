@@ -7,6 +7,7 @@ import Main from "./Main";
 import './Home.css'
 
 const Home = () => {
+    const [foundData, setFoundData] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -24,8 +25,8 @@ const Home = () => {
 
   return (
     <div className="home">
-          <Header />
-          <Main />
+          <Header setFoundData={setFoundData} />
+          <Main foundData={foundData} />
           <Footer />
     </div>
   )

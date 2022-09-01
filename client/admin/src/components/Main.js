@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios'
 import './Main.css'
 
-const Main = () => {
+const Main = ({ foundData }) => {
   const [allData, setAllData] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
@@ -18,6 +18,12 @@ const Main = () => {
   }
 
   useEffect(() => { getAllData() }, []);
+
+  useEffect(() => {
+    if (foundData.length !== 0) {
+      setAllData(foundData);
+    }
+  },[foundData])
   
   const postListings = allData.map((singleData) => {
     const timestamp = new Date(singleData.createdAt).toLocaleDateString('en-us', {

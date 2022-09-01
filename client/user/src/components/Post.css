@@ -74,7 +74,20 @@
 }
 
 .latest-posts {
+  display: flex;
+  flex-direction: column;
+}
+
+.latest-posts h1 {
+  align-self: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: "DIN", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.display-latest {
   margin: 50px;
+  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
   gap: 1rem;
@@ -150,6 +163,7 @@
     border: none;
     border-bottom: 1px solid black;
     margin: 0;
+    margin-bottom: 1.5rem;
   }
 
   .post-body h2 {
@@ -160,7 +174,11 @@
     margin-block: 1.2rem;
   }
 
-  .latest-posts {
+  .latest-posts h1 {
+    font-size: 1.3rem;
+  }
+
+  .display-latest {
     flex-direction: column;
   }
 

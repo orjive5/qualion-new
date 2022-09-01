@@ -67,6 +67,8 @@ const Main = ({ foundData, activeTag, setActiveTag, currentPage, setCurrentPage 
     pageNumbers.push(i);
   }
 
+  console.log(pageNumbers);
+
   //LOOP THROUGH POST LISTINGS TO DISPLAY THEM
   const postListings = currentPosts.map((singleData) => {
     const timestamp = new Date(singleData.createdAt).toLocaleDateString('en-us', {
@@ -147,6 +149,10 @@ const Main = ({ foundData, activeTag, setActiveTag, currentPage, setCurrentPage 
     const nextPage = () => {
       return currentPage < pageNumbers.length && setCurrentPage(current => current+1)
     }
+
+    useEffect(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }, [currentPage]);
 
     return (
       <div className="pagination-container">

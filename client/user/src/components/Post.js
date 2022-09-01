@@ -75,7 +75,10 @@ const Post = () => {
                                 {parseHtml(post.text)}
                             </div>
                             <div className='latest-posts'>
-                                {displayLatest}
+                                <h1>LATEST POSTS:</h1>
+                                <div className='display-latest'>
+                                    {displayLatest}
+                                </div>
                             </div>
                         </div>
                     </div>

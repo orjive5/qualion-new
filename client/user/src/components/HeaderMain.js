@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import './Header.css'
 import qualionBanner from '../assets/qualion-banner.jpg'
 import Icon from '@mdi/react';
@@ -12,6 +12,7 @@ const Header = ({ setFoundData, activeTag, setActiveTag, currentPage, setCurrent
   const [navDropdown, setNavDropdown] = useState(false);
   const [allData, setAllData] = useState([]);
   const [allTags, setAllTags] = useState([]);
+  const ref = useRef(null);
 
   const navigate = useNavigate();
 
@@ -63,6 +64,10 @@ const Header = ({ setFoundData, activeTag, setActiveTag, currentPage, setCurrent
   }
 
   useEffect(() => {
+    searchBar && ref.current.focus();
+  }, [searchBar])
+
+  useEffect(() => {
     searchResults()
   }, [searchValue])
 
@@ -86,6 +91,7 @@ const Header = ({ setFoundData, activeTag, setActiveTag, currentPage, setCurrent
         <div className="search-bar">
           {searchBar && (
             <input
+            ref={ref}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             className="search-input"
