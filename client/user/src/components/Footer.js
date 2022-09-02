@@ -1,31 +1,48 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import './Footer.css'
 import Icon from '@mdi/react'
 import { mdiYoutube, mdiInstagram } from '@mdi/js';
-import qualionBanner from '../assets/qualion-banner.jpg'
 import qualionLogo from '../assets/qualion-logo.png'
 import { Link } from "react-router-dom";
 
 const Footer = () => {
-  
+  const linkStyle = {
+    color: 'inherit',
+    textDecoration: 'inherit',
+  }
+
+  const newWindowYouTube = () => {
+    window.open('https://www.youtube.com/', '_blank', 'noopener,noreferrer');
+  }
+
+  const newWindowInstagram = () => {
+    window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer');
+  }
+
   return (
     <div className="footer">
       <div className="logo-and-pages">
         <div className="legal-pages-and-social">
           <div className="legal-pages">
-            <Link to='/about' style={{ color: 'inherit', textDecoration: 'inherit'}}>
-              <h1>About</h1>
+            <Link to='/about' style={linkStyle}>
+              <h1>
+                About
+              </h1>
             </Link>
-            <Link to='/faq' style={{ color: 'inherit', textDecoration: 'inherit'}}>
-              <h1>FAQ</h1>
+            <Link to='/faq' style={linkStyle}>
+              <h1>
+                FAQ
+              </h1>
             </Link>
-            <Link to='/privacy-policy' style={{ color: 'inherit', textDecoration: 'inherit'}}>
-              <h1>Privacy Policy</h1>
+            <Link to='/privacy-policy' style={linkStyle}>
+              <h1>
+                Privacy Policy
+              </h1>
             </Link>
           </div>
           <div className="social-icons">
             <Icon
-              onClick={() => window.open('https://www.youtube.com/', '_blank', 'noopener,noreferrer')}
+              onClick={newWindowYouTube}
               path={mdiYoutube}
               title="Youtube"
               className="youtube-icon"
@@ -33,7 +50,7 @@ const Footer = () => {
               color="#414c75"
             />
             <Icon
-              onClick={() => window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer')}
+              onClick={newWindowInstagram}
               path={mdiInstagram}
               title="Instagram"
               className="instagram-icon"
@@ -43,15 +60,25 @@ const Footer = () => {
           </div>
         </div>
         <div className="logo-div">
-          <img src={qualionLogo} alt='qualion' className="qualion-logo" />
-          <h1>Copyright © 2022, Qualion, LLC All Rights Reserved.</h1>
+          <img
+            src={qualionLogo}
+            alt='Qualion logo'
+            className="qualion-logo"
+          />
+          <h1>
+            Copyright © 2022, Qualion, LLC All Rights Reserved.
+          </h1>
         </div>
         <div className="contact-pages">
-          <Link to='/contact' style={{ color: 'inherit', textDecoration: 'inherit' }}>
-            <button>Contact Us</button>
+          <Link to='/contact' style={linkStyle}>
+            <button>
+              Contact Us
+            </button>
           </Link>
-          <Link to='/contribute' style={{ color: 'inherit', textDecoration: 'inherit' }}>
-            <button>Contribute</button>
+          <Link to='/contribute' style={linkStyle}>
+            <button>
+              Contribute
+            </button>
           </Link>
         </div>
       </div>

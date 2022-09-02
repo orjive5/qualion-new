@@ -3,10 +3,10 @@ import './Header.css'
 import qualionBanner from '../assets/qualion-banner.jpg'
 import Icon from '@mdi/react';
 import { mdiMenu, mdiMagnify } from '@mdi/js';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from "axios";
 
-const Header = ({ setFoundData, activeTag, setActiveTag, currentPage, setCurrentPage }) => {
+const Header = ({ setFoundData, setActiveTag, setCurrentPage }) => {
   const [searchBar, setSearchBar] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [navDropdown, setNavDropdown] = useState(false);
@@ -14,12 +14,11 @@ const Header = ({ setFoundData, activeTag, setActiveTag, currentPage, setCurrent
   const [allTags, setAllTags] = useState([]);
   const ref = useRef(null);
 
-  const navigate = useNavigate();
-
   const toggleSearchBar = () => {
     setNavDropdown(false)
     setSearchBar(!searchBar)
   }
+
   const toggleNavDropdown = () => {
     setSearchBar(false)
     setNavDropdown(!navDropdown)
@@ -29,12 +28,12 @@ const Header = ({ setFoundData, activeTag, setActiveTag, currentPage, setCurrent
     axios
       .get('http://localhost:8000/posts')
       .then((res) => {
-        const publishedPosts = res.data.filter(element => element.isPublished === true).reverse();
+        const publishedPosts = res.data.filter(element => element.isPublished).reverse();
         setAllData(publishedPosts);
         const getTags = publishedPosts.map(el => el.tags).flat();
         setAllTags([...new Set(getTags)]);
       })
-      .catch((err) => console.log(err, 'Arrgh, it\'s an error...'))
+      .catch((err) => console.log(err))
   }
 
   const searchResults = () => {
@@ -63,6 +62,11 @@ const Header = ({ setFoundData, activeTag, setActiveTag, currentPage, setCurrent
     toggleNavDropdown();
   }
 
+  const linkStyle = {
+    color: 'inherit',
+    textDecoration: 'inherit',
+  }
+
   useEffect(() => {
     searchBar && ref.current.focus();
   }, [searchBar])
@@ -79,9 +83,15 @@ const Header = ({ setFoundData, activeTag, setActiveTag, currentPage, setCurrent
     <nav className="navbar">
       <div className="main-nav">
         <Link to='/'>
-          <img onClick={clearSearch} src={qualionBanner} alt='qualion' className="qualion-banner" />
+          <img
+            onClick={clearSearch}
+            src={qualionBanner}
+            alt='Qualion banner'
+            className="qualion-banner"
+          />
         </Link>
-        <Icon path={mdiMenu}
+        <Icon
+          path={mdiMenu}
           title="Navigation menu"
           className="hamburger-menu"
           size='1.5rem'
@@ -91,14 +101,15 @@ const Header = ({ setFoundData, activeTag, setActiveTag, currentPage, setCurrent
         <div className="search-bar">
           {searchBar && (
             <input
-            ref={ref}
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            className="search-input"
-            type='text'
-          />
+              ref={ref}
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className="search-input"
+              type='text'
+            />
           )}
-          <Icon path={mdiMagnify}
+          <Icon
+            path={mdiMagnify}
             title="Search"
             className="search-icon"
             size='1.5rem'
@@ -110,23 +121,43 @@ const Header = ({ setFoundData, activeTag, setActiveTag, currentPage, setCurrent
       {navDropdown && (
         <div className="nav-dropdown">
           <div className="menu-categories">
-            <h1>CATEGORIES</h1>
-            <h2 onClick={selectCategory}>Science</h2>
-            <h2 onClick={selectCategory}>Culture</h2>
-            <h2 onClick={selectCategory}>Space</h2>
-            <h2 onClick={selectCategory}>Health</h2>
-            <h2 onClick={selectCategory}>Climate</h2>
-            <h2 onClick={selectCategory}>AI</h2>
+            <h1>
+              CATEGORIES
+            </h1>
+            <h2 onClick={selectCategory}>
+              Science
+            </h2>
+            <h2 onClick={selectCategory}>
+              Culture
+            </h2>
+            <h2 onClick={selectCategory}>
+              Space
+            </h2>
+            <h2 onClick={selectCategory}>
+              Health
+            </h2>
+            <h2 onClick={selectCategory}>
+              Climate
+            </h2>
+            <h2 onClick={selectCategory}>
+              AI
+            </h2>
           </div>
           <div className="menu-pages">
-            <Link to='/about' style={{ color: 'inherit', textDecoration: 'inherit'}}>
-              <h1>ABOUT</h1>
+            <Link to='/about' style={linkStyle}>
+              <h1>
+                ABOUT
+              </h1>
             </Link>
-            <Link to='/faq' style={{ color: 'inherit', textDecoration: 'inherit'}}>
-              <h1>FAQ</h1>
+            <Link to='/faq' style={linkStyle}>
+              <h1>
+                FAQ
+              </h1>
             </Link>
-            <Link to='/contact' style={{ color: 'inherit', textDecoration: 'inherit'}}>
-              <h1>CONTACT</h1>
+            <Link to='/contact' style={linkStyle}>
+              <h1>
+                CONTACT
+              </h1>
             </Link>
           </div>
         </div>

@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const fs =require('fs')
+const fs = require('fs');
 
 const multer = require('multer');
 
@@ -32,6 +32,7 @@ const storage = multer.diskStorage({
         cb(null, 'uploads');
     },
     filename: (_, file, cb) => {
+        // add Date.now() to make filename unique
         cb(null, Date.now() + '-' + file.originalname);
     },
 });

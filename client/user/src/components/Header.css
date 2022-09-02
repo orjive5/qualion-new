@@ -25,7 +25,8 @@
   opacity: 0.7;
 }
 
-.search-icon {
+.search-icon,
+.hamburger-menu {
   flex-shrink: 0;
 }
 
@@ -118,6 +119,7 @@
   .search-input {
     max-width: 200px;
     margin-right: 0;
+    margin-left: 16px;
   }
 }
 
@@ -128,6 +130,10 @@
 
   .search-bar {
     margin-right: 0;
+  }
+
+  .search-input {
+    font-size: 1rem;
   }
 
   .qualion-banner {
@@ -148,5 +154,12 @@
     left: 0;
     width: auto;
     padding: 0 1rem;
+  }
+
+  .nav-dropdown {
+    flex-direction: column;
+    gap: 0;
+    padding: 10px;
+    padding-top: 0;
   }
 }

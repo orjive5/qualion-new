@@ -130,10 +130,6 @@ button.update-button:hover {
   width: 100%;
 }
 
-.update-text textarea {
-  width: 100%;
-}
-
 .post-info hr {
   width: 100%;
   margin-block: 20px;

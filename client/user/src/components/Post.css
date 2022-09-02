@@ -106,22 +106,21 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background: black;
   transition: transform 0.5s ease;
 }
 
 .latest-post h1 {
   color: white;
+  background-color: rgba(0, 0, 0, 0.6);
   font-size: 18px;
   font-weight: bold;
   padding: 20px;
   margin: 0;
   position: absolute;
   line-height: 130%;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
   right: 0;
-  text-shadow: 0 1px 3px black;
   font-family: "DIN", "Helvetica Neue", Helvetica, Arial, sans-serif;
   transition: transform 0.3s ease;
 }

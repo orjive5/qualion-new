@@ -14,11 +14,11 @@ const Main = ({ foundData, activeTag, setActiveTag, currentPage, setCurrentPage 
     axios
       .get('http://localhost:8000/posts')
       .then((res) => {
-        const publishedPosts = res.data.filter(element => element.isPublished === true).reverse();
+        const publishedPosts = res.data.filter(element => element.isPublished).reverse();
         setAllData(publishedPosts);
         setActiveData(publishedPosts);
       })
-      .catch((err) => console.log(err, 'Arrgh, it\'s an error...'))
+      .catch((err) => console.log(err))
       .finally(() => setLoading(false))
   }
 
@@ -51,7 +51,6 @@ const Main = ({ foundData, activeTag, setActiveTag, currentPage, setCurrentPage 
   }, [foundData]);
 
   //PAGINATION
-  // const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(10);
 
   // Get current posts
@@ -66,8 +65,6 @@ const Main = ({ foundData, activeTag, setActiveTag, currentPage, setCurrentPage 
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }
-
-  console.log(pageNumbers);
 
   //LOOP THROUGH POST LISTINGS TO DISPLAY THEM
   const postListings = currentPosts.map((singleData) => {
@@ -90,7 +87,13 @@ const Main = ({ foundData, activeTag, setActiveTag, currentPage, setCurrentPage 
 
     const displayTags = postTags.map(el => {
       return (
-        <p onClick={() => selectTag(el)} className="tags-paragraph" key={`${el}${singleData._id}`}>{el}</p>
+        <p
+          onClick={() => selectTag(el)}
+          className="tags-paragraph"
+          key={`${el}${singleData._id}`}
+        >
+          {el}
+        </p>
       )
     });
 
@@ -107,12 +110,21 @@ const Main = ({ foundData, activeTag, setActiveTag, currentPage, setCurrentPage 
         </Link>
         <div className="post-listing-details">
           <hr></hr>
-          <Link to={`/posts/${singleData._id}`} style={{ textDecoration: 'none' }}>
-            <h1 className="post-listing-title">{singleData.title}</h1>
+          <Link
+            to={`/posts/${singleData._id}`}
+            style={{ textDecoration: 'none' }}
+          >
+            <h1 className="post-listing-title">
+              {singleData.title}
+            </h1>
           </Link>
-          <p className="subtitle-paragraph">{singleData.subtitle}</p>
+          <p className="subtitle-paragraph">
+            {singleData.subtitle}
+          </p>
           <div className="date-and-tags">
-            <p className="time-paragraph">{timestamp}</p>
+            <p className="time-paragraph">
+              {timestamp}
+            </p>
             <div>
               {displayTags}
             </div>
@@ -158,7 +170,10 @@ const Main = ({ foundData, activeTag, setActiveTag, currentPage, setCurrentPage 
       <div className="pagination-container">
         <ul className="pagination">
           <li>
-            <div onClick={previousPage} className="pagination-item">
+            <div
+              onClick={previousPage}
+              className="pagination-item"
+            >
               &#10092;
             </div>
           </li>

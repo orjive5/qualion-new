@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import './Post.css'
+import { Editor } from '@tinymce/tinymce-react';
+import parseHtml from 'html-react-parser';
 
 const Post = () => {
     const [isLoading, setLoading] = useState(true);
@@ -31,6 +33,7 @@ const Post = () => {
                 setPostImage(post.imageUrl);
                 setPostTitle(post.title);
                 setPostSubtitle(post.subtitle);
+                setContentEditor(post.text);
                 setPostText(post.text);
                 setPostTags(post.tags.map((el => `${el}`)));
                 setPublished(post.isPublished);
@@ -66,7 +69,7 @@ const Post = () => {
             imageUrl: postImage,
             title: postTitle,
             subtitle: postSubtitle,
-            text: postText,
+            text: contentEditor,
             tags: postTags,
         }, { headers })
             .then((response) => {
@@ -80,9 +83,14 @@ const Post = () => {
             })
     }
 
-    const reloadImage = async () => {
+    const reloadImage = () => {
         updatePost();
         window.location.reload();
+    }
+
+    const updateContent = () => {
+        updatePost();
+        setPostText(contentEditor);
     }
 
 
@@ -161,6 +169,18 @@ const Post = () => {
             console.warn(err);
             alert('Failed to upload a file!')
         }
+    }
+
+    //TinyMCS setup
+    const editorRef = useRef(null);
+    const log = () => {
+        if (editorRef.current) {
+            console.log(editorRef.current.getContent());
+        }
+    };
+    const [contentEditor, setContentEditor] = useState('');
+    const handleEditorChange = (content, editor) => {
+        setContentEditor(content);
     }
 
     return (
@@ -242,7 +262,9 @@ const Post = () => {
                     )}
                     <hr></hr>
                     {/* UPDATE TEXT */}
-                    <p>{postText}</p>
+                    <div className='parsed-post-text'>
+                        {parseHtml(postText)}
+                    </div>
                     <button
                         className={updateText ? 'close-button' : 'update-text-button'}
                         onClick={editOrCloseText}
@@ -250,15 +272,32 @@ const Post = () => {
                         {updateText ? 'Close' : 'Update text'}
                     </button>
                     {updateText && (
-                        <div className='update-text'>
-                            <textarea
-                                rows={20}
-                                type='text'
-                                placeholder='Enter new title'
-                                value={postText}
-                                onChange={(e) => setPostText(e.target.value)}></textarea>
-                            <button className='update-button' onClick={updatePost}>Update</button>
-                        </div>
+                        <>
+                        <Editor
+                            tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
+                            onInit={(evt, editor) => editorRef.current = editor}
+                            initialValue={postText}
+                            init={{
+                                height: 500,
+                                menubar: false,
+                                plugins: [
+                                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                                    'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
+                                ],
+                                toolbar: 'undo redo | blocks | ' +
+                                    'bold italic forecolor | alignleft aligncenter ' +
+                                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                                    'removeformat | help',
+                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }'
+                            }}
+                            value={contentEditor}
+                            onEditorChange={handleEditorChange}
+                            />
+                            <button className='update-button' onClick={updateContent}>
+                                Update
+                            </button>
+                        </>
                     )}
                     <hr></hr>
                     {/* UPDATE TAGS */}

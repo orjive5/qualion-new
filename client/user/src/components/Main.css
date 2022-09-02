@@ -223,10 +223,14 @@
 
 @media (max-width: 700px) {
   .main-content {
-    padding: 5vw;
+    padding: 25px;
   }
 
   .post-listing-title {
     font-size: 1.2rem;
+  }
+
+  .post-listing-image-container {
+    height: 30vh;
   }
 }

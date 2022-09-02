@@ -26,4 +26,4 @@ MainLoader.metadata = {
   filename: 'News',
 }
 
-export default MainLoader
+export default MainLoader;

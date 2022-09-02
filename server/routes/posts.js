@@ -1,6 +1,4 @@
 const router = require('express').Router();
-const bcrypt = require('bcrypt');
-const UserModel = require('../models/User');
 const checkAuth = require('../utils/checkAuth');
 const PostController = require('../controllers/PostController');
 const { postCreateValidation, postUpdateValidation } = require('../validations');

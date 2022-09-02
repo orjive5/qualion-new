@@ -31,3 +31,21 @@
   font-weight: 200;
   font-family: "Merriweather", Georgia, "Times New Roman", Times, serif;
 }
+
+@media (max-width: 600px) {
+  .page-container {
+    margin: 1rem;
+  }
+
+  .page-container h1 {
+    margin: 10px 0 20px;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .page-text p {
+    margin-bottom: 15px;
+    line-height: 140%;
+  }
+}
