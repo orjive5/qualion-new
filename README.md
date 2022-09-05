@@ -1,9 +1,9 @@
 # Qualion Blog
 
 ## CRUD Blog app created using MERN Stack.
-
+### Responsive design
 ### App has been deployed to Heroku and Netlify.
-### Due to Heroku's ephemeral filesystem, Cloudinary has been used for file (image) upload.
+### Cloudinary has been used for image upload.
 
 ### Live demo:
 ### [Admin](https://beamish-lebkuchen-34f1ff.netlify.app/)
