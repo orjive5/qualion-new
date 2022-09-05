@@ -19,6 +19,7 @@
   margin-block: 50px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   background-color: white;
+  padding-block: 20px;
 }
 
 .create-new-post h1 {
@@ -187,6 +188,7 @@ div.tox.tox-tinymce {
     padding: 20px;
     box-sizing: border-box;
     width: 100%;
+    gap: 10px;
   }
 
   .create-new-post h1 {
@@ -226,5 +228,10 @@ div.tox.tox-tinymce {
     height: 46px;
     font-size: 1rem;
     line-height: 46px;
+  }
+
+  .post-status {
+    font-size: 1rem;
+    font-weight: bold;
   }
 }

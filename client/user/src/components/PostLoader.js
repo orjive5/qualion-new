@@ -1,5 +1,5 @@
-import React from 'react'
-import ContentLoader from 'react-content-loader'
+import React from 'react';
+import ContentLoader from 'react-content-loader';
 
 const PostLoader = ({ ...rest }) => (
   <ContentLoader height="1000" width="1000" viewBox="0 0 265 230" {...rest}>
@@ -8,13 +8,13 @@ const PostLoader = ({ ...rest }) => (
     <rect x="15" y="230" rx="2" ry="2" width="170" height="20" />
     <rect x="60" y="230" rx="2" ry="2" width="170" height="20" />
   </ContentLoader>
-)
+);
 
 PostLoader.metadata = {
   name: 'Didier Munezero',
   github: 'didiermunezero',
   description: 'Grid for content of head and body',
-  filename: 'PostLoader',
-}
+  filename: 'PostLoader'
+};
 
-export default PostLoader
+export default PostLoader;

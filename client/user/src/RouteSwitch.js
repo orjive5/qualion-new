@@ -1,11 +1,11 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import App from "./App";
-import About from "./components/About";
-import Contact from "./components/Contact";
-import Contribute from "./components/Contribute";
-import Faq from "./components/Faq";
-import Post from "./components/Post";
-import PrivacyPolicy from "./components/PrivacyPolicy";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import App from './App';
+import About from './components/About';
+import Contact from './components/Contact';
+import Contribute from './components/Contribute';
+import Faq from './components/Faq';
+import Post from './components/Post';
+import PrivacyPolicy from './components/PrivacyPolicy';
 
 const RouteSwitch = () => {
   return (

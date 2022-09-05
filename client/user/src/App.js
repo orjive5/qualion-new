@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import HeaderMain from "./components/HeaderMain";
-import Main from "./components/Main";
-import Footer from "./components/Footer";
-import './App.css'
+import React, { useState } from 'react';
+import HeaderMain from './components/HeaderMain';
+import Main from './components/Main';
+import Footer from './components/Footer';
+import './App.css';
 
 function App() {
   const [foundData, setFoundData] = useState([]);
@@ -27,7 +27,7 @@ function App() {
       />
       <Footer />
     </div>
-  )
+  );
 }
 
 export default App;
