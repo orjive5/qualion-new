@@ -1,7 +1,7 @@
 # Qualion Blog
 
 ## CRUD Blog app created using MERN Stack.
-### Responsive design
+### A platform for creating and managing a blog, built using the MERN stack. User authentication is handled using the standard username and password strategy, with password hashing and salting for secure storage. JSON Web Tokens ensure that users remain authenticated while they explore the site. The responsive app features a TinyMCE rich text editor that allows for the creation of clean, properly formatted blog posts.
 ### App has been deployed to Heroku and Netlify.
 ### Cloudinary has been used for image upload.
 
